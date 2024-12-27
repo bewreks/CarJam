@@ -1,6 +1,8 @@
 ﻿using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Queues.Base;
 using CarJam.Scripts.Queues.BusStop.Presenters;
+using CarJam.Scripts.Signals;
+using CarJam.Scripts.Vehicles.Presenters;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -10,6 +12,7 @@ namespace CarJam.Scripts.Queues.BusStop
     {
         [Inject] private BusStopQueueSettings _settings;
         [Inject] private BusStopPlacePresenter.Factory _placeFactory;
+        [Inject] private SignalBus _bus;
         
         private readonly Transform _parent;
         
@@ -40,6 +43,23 @@ namespace CarJam.Scripts.Queues.BusStop
         protected override void OnDequeue(BusStopPlacePresenter obj)
         {
             
+        }
+
+        public async UniTask TryToMoveVehicle(VehiclePresenter vehicle)
+        {
+            var place = _queue.GetEmptyPlace();
+            
+            if (place == null)
+            {
+                _bus.Fire<NoMorePlacesSignal>();
+                return;
+            }
+
+            place.Reserve();
+            await vehicle.MoveToPosition(place.EnterPoint);
+            await vehicle.MoveToPosition(place.Position);
+            place.SetVehicle(vehicle);
+            place.Unreserve();
         }
     }
 }

@@ -20,6 +20,8 @@ namespace CarJam.Scripts.Vehicles.Presenters
         
         private CancellationTokenSource _movementCts;
 
+        public GameColors Color => _model.Color;
+
         [Inject]
         private void Construct(GameColors color, Vector3 spawnPoint)
         {

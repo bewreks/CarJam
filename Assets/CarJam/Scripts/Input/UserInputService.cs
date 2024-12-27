@@ -3,7 +3,9 @@ using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Queues;
 using CarJam.Scripts.Queues.BusStop;
 using CarJam.Scripts.Queues.Characters;
+using CarJam.Scripts.Signals;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 namespace CarJam.Scripts.Input
@@ -12,6 +14,7 @@ namespace CarJam.Scripts.Input
     {
         [Inject] private LazyInject<CharactersQueueFacade> _charactersQueue;
         [Inject] private LazyInject<BusStopFacade> _parkingQueue;
+        [Inject] private SignalBus _signalBus;
         
         private readonly InputActions _inputActions = new InputActions();
 
@@ -27,7 +30,10 @@ namespace CarJam.Scripts.Input
 
         private void OnSelect(InputAction.CallbackContext obj)
         {
-            
+            _signalBus.Fire(new DebugPlaceBusSignal//UserSelectionSignal
+            {
+                SelectionPosition = _inputActions.GamePlay.SelectPosition.ReadValue<Vector2>()
+            });
         }
 
         private void OnDebugSpawn(InputAction.CallbackContext obj)

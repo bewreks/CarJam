@@ -5,6 +5,8 @@ using CarJam.Scripts.Characters.Views;
 using CarJam.Scripts.Queues.BusStop.Models;
 using CarJam.Scripts.Queues.BusStop.Presenters;
 using CarJam.Scripts.Queues.BusStop.Views;
+using CarJam.Scripts.Queues.Parking.Models;
+using CarJam.Scripts.Queues.Parking.Presenters;
 using CarJam.Scripts.Vehicles.Models;
 using CarJam.Scripts.Vehicles.Presenters;
 using CarJam.Scripts.Vehicles.Views;
@@ -34,6 +36,9 @@ namespace CarJam.Scripts.Contexts.ScriptableObjects
             Container.BindFactory<VehicleModel, VehicleView, VehicleView.Factory>().FromComponentInNewPrefab(BusPrefab).AsSingle();
             Container.BindFactory<VehicleModel, VehicleModel.Factory>().AsSingle();
             Container.BindFactory<GameColors, Vector3, VehiclePresenter, VehiclePresenter.Factory>().AsSingle();
+
+            Container.BindFactory<ParkingModel, ParkingModel.Factory>().AsSingle();
+            Container.BindFactory<ParkingPresenter, ParkingPresenter.Factory>().AsSingle();
         }
     }
 }

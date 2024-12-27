@@ -1,4 +1,5 @@
-﻿using CarJam.Scripts.Queues.Base;
+﻿using System.Linq;
+using CarJam.Scripts.Queues.Base;
 using CarJam.Scripts.Queues.BusStop.Presenters;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -37,6 +38,11 @@ namespace CarJam.Scripts.Queues.BusStop
         public override void Dispose()
         {
             
+        }
+
+        public BusStopPlacePresenter GetEmptyPlace()
+        {
+            return _objects.FirstOrDefault(presenter => presenter.IsEmpty);
         }
     }
 }
