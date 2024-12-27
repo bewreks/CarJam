@@ -9,6 +9,7 @@ namespace CarJam.Scripts.Vehicles.Models
         public GameColors Color;
         public float MovementSpeed;
         public ReactiveProperty<Material> Material = new ReactiveProperty<Material>();
+        public BoolReactiveProperty IsMoving = new BoolReactiveProperty();
 
         public class Factory : PlaceholderFactory<VehicleModel>
         {

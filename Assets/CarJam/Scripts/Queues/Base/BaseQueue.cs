@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-namespace CarJam.Scripts.Queues
+namespace CarJam.Scripts.Queues.Base
 {
     public abstract class BaseQueue<T> : IDisposable
     {
@@ -11,32 +11,33 @@ namespace CarJam.Scripts.Queues
         
         protected Vector3 _currentPosition;
         protected Vector3 _queueDirection;
-        protected float _distanceBetweenCharacters;
+        protected float DistanceBetweenVehicles;
         
-        protected List<T> _characters = new List<T>();
-        
-        public abstract bool IsHaveEnoughSpace { get; }
+        protected List<T> _objects = new List<T>();
+
         public abstract bool IsCanDequeue { get; }
         public abstract bool UpdateInProgress
         {
             get;
             protected set;
         }
+        
+        public bool IsHaveEnoughSpace => Vector3.Distance(_currentPosition, _startPoint) > DistanceBetweenVehicles;
 
-        protected BaseQueue(Vector3 startPoint, Vector3 finishPoint, float distanceBetweenCharacters)
+        protected BaseQueue(Vector3 startPoint, Vector3 finishPoint, float distanceBetweenVehicles)
         {
-            _distanceBetweenCharacters = distanceBetweenCharacters;
+            DistanceBetweenVehicles = distanceBetweenVehicles;
             _startPoint = startPoint;
             _finishPoint = finishPoint;
             
             _currentPosition = _finishPoint;
-            _queueDirection = _distanceBetweenCharacters * (_startPoint - _finishPoint).normalized;
+            _queueDirection = DistanceBetweenVehicles * (_startPoint - _finishPoint).normalized;
         }
 
         public async UniTask Enqueue(T t)
         {
             await BeforeEnqueue(t, _startPoint);
-            _characters.Add(t);
+            _objects.Add(t);
             var nextPosition = _currentPosition;
             _currentPosition = nextPosition + _queueDirection;
             await AfterEnqueue(t, nextPosition);
@@ -44,9 +45,9 @@ namespace CarJam.Scripts.Queues
 
         public T Dequeue()
         {
-            var character = _characters[0];
-            _characters.RemoveAt(0);
-            return character;
+            var obj = _objects[0];
+            _objects.RemoveAt(0);
+            return obj;
         }
 
         public abstract UniTask UpdateQueue();

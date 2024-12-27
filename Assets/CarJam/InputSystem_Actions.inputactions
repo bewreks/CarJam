@@ -12,7 +12,7 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "SelectPosition",
@@ -33,9 +33,27 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "DebugSpawnBus",
+                    "type": "Button",
+                    "id": "dc0badb3-e920-45f4-bd27-ab7d9918b44d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "DebugDespawn",
                     "type": "Button",
                     "id": "4e20f530-d805-40d2-a95e-052774346f6b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DebugDespawnBus",
+                    "type": "Button",
+                    "id": "d8e3197a-5664-4712-ab84-ba5e86511d23",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -100,12 +118,34 @@
                 },
                 {
                     "name": "",
+                    "id": "cd9e5d74-db82-46a8-8b07-c27c2afbe244",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugSpawnBus",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "81756e14-54cf-4afc-a8f9-76d74b58135c",
                     "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "DebugDespawn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "45854975-bfd7-4c41-ba78-e4384e6e1852",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugDespawnBus",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

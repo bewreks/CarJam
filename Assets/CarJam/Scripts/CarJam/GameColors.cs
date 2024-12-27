@@ -2,6 +2,7 @@
 {
     public enum GameColors : byte
     {
+        None = byte.MaxValue,
         Blue = 0,
         Orange = 1,
         Pink = 2,

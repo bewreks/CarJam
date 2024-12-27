@@ -3,7 +3,7 @@ using CarJam.Scripts.CarJam;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
-namespace CarJam.Scripts.Queues
+namespace CarJam.Scripts.Queues.Base
 {
     public abstract class BaseQueueFacade<T, TQueue> : IInitializable, IDisposable
         where TQueue : BaseQueue<T>
@@ -26,6 +26,12 @@ namespace CarJam.Scripts.Queues
         public void Initialize()
         {
             _queue = (TQueue) Activator.CreateInstance(typeof(TQueue), _startPoint, _finishPoint, DistanceBetweenObject);
+            OnInitialize();
+        }
+
+        protected virtual void OnInitialize()
+        {
+            
         }
         
         public void Dispose()
@@ -38,17 +44,17 @@ namespace CarJam.Scripts.Queues
             if (!_queue.IsHaveEnoughSpace ||
                 _queue.UpdateInProgress) return;
 
-            var character = TFactory(color);
-            await _queue.Enqueue(character);
+            var obj = TFactory(color);
+            await _queue.Enqueue(obj);
         }
         
-        public void DequeueCharacter()
+        public void Dequeue()
         {
             if (!_queue.IsCanDequeue ||
                 _queue.UpdateInProgress) return;
             
-            var character = _queue.Dequeue();
-            OnDequeue(character);
+            var obj = _queue.Dequeue();
+            OnDequeue(obj);
             _queue.UpdateQueue().Forget();
         }
 

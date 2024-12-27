@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
-namespace CarJam.Scripts.Queues.Parking
+namespace CarJam.Scripts.Queues.BusStop
 {
     [Serializable]
-    public class ParkingQueueSettings
+    public class BusStopQueueSettings
     {
         [field: SerializeField] public float DistanceBetweenVehicles { get; private set; }
     }

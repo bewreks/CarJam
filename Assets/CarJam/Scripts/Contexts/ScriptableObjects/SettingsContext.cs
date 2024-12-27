@@ -1,7 +1,8 @@
 ﻿using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Characters;
 using CarJam.Scripts.Queues;
-using CarJam.Scripts.Queues.Parking;
+using CarJam.Scripts.Queues.BusStop;
+using CarJam.Scripts.Queues.Characters;
 using CarJam.Scripts.Vehicles;
 using UnityEngine;
 using Zenject;
@@ -12,7 +13,7 @@ namespace CarJam.Scripts.Contexts.ScriptableObjects
     {
         [field: SerializeField] public CharacterSettings CharacterSettings { get; set; }
         [field: SerializeField] public CharactersQueueSettings CharactersQueueSettings { get; set; }
-        [field: SerializeField] public ParkingQueueSettings ParkingQueueSettings { get; set; }
+        [field: SerializeField] public BusStopQueueSettings BusStopQueueSettings { get; set; }
         [field: SerializeField] public VehicleSettings VehicleSettings { get; set; }
         [field: SerializeField] public CarJamSettings CarJamSettings { get; set; }
 
@@ -20,7 +21,7 @@ namespace CarJam.Scripts.Contexts.ScriptableObjects
         {
             Container.BindInstance(CharacterSettings).AsSingle();
             Container.BindInstance(CharactersQueueSettings).AsSingle();
-            Container.BindInstance(ParkingQueueSettings).AsSingle();
+            Container.BindInstance(BusStopQueueSettings).AsSingle();
             Container.BindInstance(VehicleSettings).AsSingle();
             Container.BindInstance(CarJamSettings).AsSingle();
         }

@@ -1,30 +1,29 @@
 ﻿using CarJam.Scripts.Characters.Presenters;
+using CarJam.Scripts.Queues.Base;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-namespace CarJam.Scripts.Queues
+namespace CarJam.Scripts.Queues.Characters
 {
     public class CharactersQueue : BaseQueue<CharacterPresenter>
     {
-        public CharactersQueue(Vector3 startPoint, Vector3 finishPoint, float distanceBetweenCharacters) : base(startPoint, finishPoint, distanceBetweenCharacters)
+        public CharactersQueue(Vector3 startPoint, Vector3 finishPoint, float distanceBetweenVehicles) : base(startPoint, finishPoint, distanceBetweenVehicles)
         {
         }
 
-        public override bool IsHaveEnoughSpace => Vector3.Distance(_currentPosition, _startPoint) > _distanceBetweenCharacters;
-
-        public override bool IsCanDequeue => _characters.Count > 0 && !_characters[0].IsMoving;
+        public override bool IsCanDequeue => _objects.Count > 0 && !_objects[0].IsMoving;
 
         public override bool UpdateInProgress { get; protected set; }
 
         public override void Dispose()
         {
-            _characters.ForEach(presenter => presenter.Dispose());
+            _objects.ForEach(presenter => presenter.Dispose());
         }
 
         public override UniTask UpdateQueue()
         {
             UpdateInProgress = true;
             _currentPosition = _finishPoint;
-            foreach (var character in _characters)
+            foreach (var character in _objects)
             {
                 character.MoveToPosition(_currentPosition).Forget();
                 _currentPosition += _queueDirection;

@@ -1,6 +1,8 @@
 ﻿using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Input;
 using CarJam.Scripts.Queues;
+using CarJam.Scripts.Queues.BusStop;
+using CarJam.Scripts.Queues.Characters;
 using UnityEngine;
 using Zenject;
 namespace CarJam.Scripts.Contexts.Installers
@@ -16,6 +18,8 @@ namespace CarJam.Scripts.Contexts.Installers
             Container.BindInterfacesAndSelfTo<CharactersQueueFacade>().AsSingle()
                      .WithArguments(_charactersQueue.Start.position, _charactersQueue.End.position, _characterSpawnPoint.position).NonLazy();
             
+            Container.BindInterfacesAndSelfTo<BusStopFacade>().AsSingle()
+                     .WithArguments(_parkingQueue.Start.position, _parkingQueue.End.position, _parkingQueue.transform).NonLazy();
             
             Container.BindInterfacesAndSelfTo<UserInputService>().AsSingle();
             Container.BindInterfacesAndSelfTo<CarJamGameplay>().AsSingle();

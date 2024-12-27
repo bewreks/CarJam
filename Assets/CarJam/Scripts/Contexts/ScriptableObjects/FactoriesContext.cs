@@ -2,6 +2,11 @@
 using CarJam.Scripts.Characters.Models;
 using CarJam.Scripts.Characters.Presenters;
 using CarJam.Scripts.Characters.Views;
+using CarJam.Scripts.Queues.BusStop.Models;
+using CarJam.Scripts.Queues.BusStop.Presenters;
+using CarJam.Scripts.Queues.BusStop.Views;
+using CarJam.Scripts.Vehicles.Models;
+using CarJam.Scripts.Vehicles.Presenters;
 using CarJam.Scripts.Vehicles.Views;
 using UnityEngine;
 using Zenject;
@@ -14,6 +19,7 @@ namespace CarJam.Scripts.Contexts.ScriptableObjects
         [field: SerializeField] public CharacterView CharacterPrefab { get; private set; }
         [field: SerializeField] public GameObject CarPrefab { get; private set; }
         [field: SerializeField] public GameObject BusPrefab { get; private set; }
+        [field: SerializeField] public BusStopPlaceView BusStopPlacePrefab { get; private set; }
 
         public override void InstallBindings()
         {
@@ -21,9 +27,13 @@ namespace CarJam.Scripts.Contexts.ScriptableObjects
             Container.BindFactory<CharacterModel, CharacterModel.Factory>().AsSingle();
             Container.BindFactory<GameColors, Vector3, CharacterPresenter, CharacterPresenter.Factory>().AsSingle();
 
-            
-            Container.BindFactory<CarView, PlaceholderFactory<CarView>>().FromComponentInNewPrefab(CarPrefab).AsSingle();
-            Container.BindFactory<BusVehicle, PlaceholderFactory<BusVehicle>>().FromComponentInNewPrefab(BusPrefab).AsSingle();
+            Container.BindFactory<BusStopPlaceModel, BusStopPlaceView, BusStopPlaceView.Factory>().FromComponentInNewPrefab(BusStopPlacePrefab).AsSingle();
+            Container.BindFactory<BusStopPlaceModel, BusStopPlaceModel.Factory>().AsSingle();
+            Container.BindFactory<BusStopPlacePresenter, BusStopPlacePresenter.Factory>().AsSingle();
+
+            Container.BindFactory<VehicleModel, VehicleView, VehicleView.Factory>().FromComponentInNewPrefab(BusPrefab).AsSingle();
+            Container.BindFactory<VehicleModel, VehicleModel.Factory>().AsSingle();
+            Container.BindFactory<GameColors, Vector3, VehiclePresenter, VehiclePresenter.Factory>().AsSingle();
         }
     }
 }

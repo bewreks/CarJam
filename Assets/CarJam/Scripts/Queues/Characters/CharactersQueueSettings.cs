@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-namespace CarJam.Scripts.Queues
+namespace CarJam.Scripts.Queues.Characters
 {
     [Serializable]
     public class CharactersQueueSettings

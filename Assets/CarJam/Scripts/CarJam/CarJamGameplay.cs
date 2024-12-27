@@ -1,5 +1,6 @@
 ﻿using System;
 using CarJam.Scripts.Queues;
+using CarJam.Scripts.Queues.Characters;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using Zenject;

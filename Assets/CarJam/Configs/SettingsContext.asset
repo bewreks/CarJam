@@ -30,10 +30,10 @@ MonoBehaviour:
         Value: {fileID: 2100000, guid: eae63e4521325eb4c99b1de22b4fc163, type: 2}
   <CharactersQueueSettings>k__BackingField:
     <DistanceBetweenCharacters>k__BackingField: 1
-  <ParkingQueueSettings>k__BackingField:
-    <DistanceBetweenVehicles>k__BackingField: 1
+  <BusStopQueueSettings>k__BackingField:
+    <DistanceBetweenVehicles>k__BackingField: 4.8
   <VehicleSettings>k__BackingField:
-    <MovementSpeed>k__BackingField: 30
+    <MovementSpeed>k__BackingField: 200
     <Materials>k__BackingField:
       _serializedList:
       - Key: 0
