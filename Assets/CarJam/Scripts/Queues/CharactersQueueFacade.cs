@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using CarJam.Scripts.CarJam;
-using CarJam.Scripts.Characters.Factories;
-using CarJam.Scripts.Characters.Views;
+using CarJam.Scripts.Characters.Presenters;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -11,7 +9,7 @@ namespace CarJam.Scripts.Queues
     public class CharactersQueueFacade : IInitializable, IDisposable
     {
         [Inject] private QueueSettings _settings;
-        [Inject] private CharacterFactory _characterFactory;
+        [Inject] private CharacterPresenter.Factory _characterFactory;
 
         private readonly Vector3 _startPoint;
         private readonly Vector3 _finishPoint;
@@ -41,9 +39,8 @@ namespace CarJam.Scripts.Queues
             if (!_charactersQueue.IsHaveEnoughSpace ||
                 _charactersQueue.UpdateInProgress) return;
 
-            var characterView = _characterFactory.Create(GameColors.Blue);
-            characterView.transform.position = _characterSpawnPoint;
-            await _charactersQueue.Enqueue(characterView);
+            var character = _characterFactory.Create(GameColors.Blue, _characterSpawnPoint);
+            await _charactersQueue.Enqueue(character);
         }
         
         public void DequeueCharacter()

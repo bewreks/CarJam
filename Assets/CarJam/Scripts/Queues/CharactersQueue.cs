@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CarJam.Scripts.Characters.Presenters;
 using CarJam.Scripts.Characters.Views;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace CarJam.Scripts.Queues
         private Vector3 _queueDirection;
         private float _distanceBetweenCharacters;
         
-        private List<CharacterView> _characters = new List<CharacterView>();
+        private List<CharacterPresenter> _characters = new List<CharacterPresenter>();
 
         public CharactersQueue(Vector3 startPoint, Vector3 finishPoint, float distanceBetweenCharacters)
         {
@@ -28,7 +29,7 @@ namespace CarJam.Scripts.Queues
 
         public bool IsHaveEnoughSpace => Vector3.Distance(_currentPosition, _startPoint) > _distanceBetweenCharacters;
 
-        public bool IsCanDequeue => _characters.Count > 0 &&!_characters[0].IsMoving;
+        public bool IsCanDequeue => _characters.Count > 0 && !_characters[0].IsMoving;
 
         public bool UpdateInProgress { get; private set; }
 
@@ -37,16 +38,16 @@ namespace CarJam.Scripts.Queues
             
         }
 
-        public async UniTask Enqueue(CharacterView characterView)
+        public async UniTask Enqueue(CharacterPresenter character)
         {
-            _characters.Add(characterView);
+            _characters.Add(character);
             var nextPosition = _currentPosition + _queueDirection;
             _currentPosition = nextPosition;
-            await characterView.MoveToPosition(_startPoint);
-            await characterView.MoveToPosition(nextPosition);
+            await character.MoveToPosition(_startPoint);
+            await character.MoveToPosition(nextPosition);
         }
 
-        public CharacterView Dequeue()
+        public CharacterPresenter Dequeue()
         {
             var character = _characters[0];
             _characters.RemoveAt(0);

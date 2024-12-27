@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2671b54efb124b3eaa6b03f7cd743bc8, type: 3}
-  m_Name: PrefabsContext
+  m_Name: FactoriesContext
   m_EditorClassIdentifier: 
   <CharacterPrefab>k__BackingField: {fileID: 2022753609212421484, guid: 951848e5e321d8d42a725dfe9be5909c, type: 3}
   <CarPrefab>k__BackingField: {fileID: 496901097662907485, guid: a208934b1026e674a85b8ee30fa75dc4, type: 3}

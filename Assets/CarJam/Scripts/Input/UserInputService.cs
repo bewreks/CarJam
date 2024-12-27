@@ -1,7 +1,4 @@
 ﻿using System;
-using CarJam.Scripts.CarJam;
-using CarJam.Scripts.Characters.Factories;
-using CarJam.Scripts.Characters.Views;
 using CarJam.Scripts.Queues;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -21,7 +18,6 @@ namespace CarJam.Scripts.Input
 
         public void Dispose()
         {
-            Debug.Log("Dispose");
             _inputActions.Dispose();
         }
 
