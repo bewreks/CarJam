@@ -28,5 +28,26 @@ MonoBehaviour:
         Value: {fileID: 2100000, guid: 5a0b15c1ad5770a4daeb29f92e406bb8, type: 2}
       - Key: 5
         Value: {fileID: 2100000, guid: eae63e4521325eb4c99b1de22b4fc163, type: 2}
-  <QueueSettings>k__BackingField:
+  <CharactersQueueSettings>k__BackingField:
     <DistanceBetweenCharacters>k__BackingField: 1
+  <ParkingQueueSettings>k__BackingField:
+    <DistanceBetweenVehicles>k__BackingField: 1
+  <VehicleSettings>k__BackingField:
+    <MovementSpeed>k__BackingField: 30
+    <Materials>k__BackingField:
+      _serializedList:
+      - Key: 0
+        Value: {fileID: 2100000, guid: 2851e6469fffc7640a0b1333a9b2519f, type: 2}
+      - Key: 1
+        Value: {fileID: 2100000, guid: c5e99272ad886484b9312930b8a73a3f, type: 2}
+      - Key: 2
+        Value: {fileID: 2100000, guid: 5c2425ed6b1f6a542b093f0031886dff, type: 2}
+      - Key: 3
+        Value: {fileID: 2100000, guid: 582c24f4d479d3c488209970af8c54d2, type: 2}
+      - Key: 4
+        Value: {fileID: 2100000, guid: c64a11100323d7147864b48f1ff464c3, type: 2}
+      - Key: 5
+        Value: {fileID: 2100000, guid: 13b50907e4f515b4cb521e5b708077e2, type: 2}
+  <CarJamSettings>k__BackingField:
+    <InGameColors>k__BackingField: 000102030405
+    <CharacterSpawnCooldown>k__BackingField: 0.5

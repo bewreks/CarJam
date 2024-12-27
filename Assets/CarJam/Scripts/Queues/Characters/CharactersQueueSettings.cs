@@ -3,7 +3,7 @@ using UnityEngine;
 namespace CarJam.Scripts.Queues
 {
     [Serializable]
-    public class QueueSettings
+    public class CharactersQueueSettings
     {
         [field: SerializeField] public float DistanceBetweenCharacters { get; private set; } 
     }

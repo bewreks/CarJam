@@ -40,8 +40,11 @@ namespace CarJam.Scripts.Characters.Presenters
             _movementCts?.Cancel();
             _movementCts = new CancellationTokenSource();
             _model.IsMoving.Value = true;
-            await _view.MoveToPosition(position, _movementCts.Token);
-            _model.IsMoving.Value = false;
+            var result = await _view.MoveToPosition(position, _movementCts.Token);
+            if (result)
+            {
+                _model.IsMoving.Value = false;
+            }
         }
 
         public void DestroySelf()

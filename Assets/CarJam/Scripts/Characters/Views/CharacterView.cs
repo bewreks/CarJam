@@ -29,12 +29,13 @@ namespace CarJam.Scripts.Characters.Views
             _model.IsMoving.SkipLatestValueOnSubscribe().Subscribe(isMoving => _animator.SetBool(IsRunning, isMoving)).AddTo(_disposables);
         }
 
-        public async UniTask MoveToPosition(Vector3 position, CancellationToken token)
+        public async UniTask<bool> MoveToPosition(Vector3 position, CancellationToken token)
         {
             transform.forward = position - transform.position;
             await transform.DOMove(position, Vector3.Distance(transform.position, position) / _model.MovementSpeed)
                            .SetEase(Ease.Linear)
                            .ToUniTask(cancellationToken: token);
+            return !token.IsCancellationRequested;
         }
 
         public void Dispose()
