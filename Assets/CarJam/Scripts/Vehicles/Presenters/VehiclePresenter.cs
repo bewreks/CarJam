@@ -24,6 +24,11 @@ namespace CarJam.Scripts.Vehicles.Presenters
 
         public Vector3 Position => _view.transform.position;
         public Vector3 Direction => _view.transform.forward;
+        public Guid Id => _model.Id;
+
+        public bool IsFull => _model.CurrentCapacity.Value >= _model.MaxCapacity;
+
+        public Guid BusStopId => _model.BusStopId;
 
         [Inject]
         private void Construct(VehiclesData data)
@@ -34,6 +39,7 @@ namespace CarJam.Scripts.Vehicles.Presenters
             _model = _modelFactory.Create();
             _model.Id = Guid.Parse(data.Id);
             _model.Color = data.Color;
+            _model.MaxCapacity = settings.Capacity;
             _model.Material.Value = settings.Materials[data.Color];
             _model.MovementSpeed = settings.MovementSpeed;
 
@@ -65,6 +71,16 @@ namespace CarJam.Scripts.Vehicles.Presenters
             {
                 _model.IsMoving.Value = false;
             }
+        }
+
+        public void OnAboard()
+        {
+            _model.CurrentCapacity.Value += 1;
+        }
+
+        public void SetBusStopId(Guid id)
+        {
+            _model.BusStopId = id;
         }
         
         public class Factory : PlaceholderFactory<VehiclesData, VehiclePresenter>

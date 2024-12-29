@@ -3,6 +3,7 @@
     public class GameModel
     {
         public float CharacterSpawnCooldown;
+        public float CharacterDespawnCooldown;
         public GameColors[] InGameColors;
     }
 }

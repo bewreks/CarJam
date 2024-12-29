@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <InGameColors>k__BackingField: 00
   <CharacterSpawnCooldown>k__BackingField: 0.1
+  <CharacterDespawnCooldown>k__BackingField: 0.1

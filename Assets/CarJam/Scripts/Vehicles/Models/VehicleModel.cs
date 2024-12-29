@@ -10,8 +10,11 @@ namespace CarJam.Scripts.Vehicles.Models
         public Guid Id;
         public GameColors Color;
         public float MovementSpeed;
+        public int MaxCapacity;
+        public IntReactiveProperty CurrentCapacity = new IntReactiveProperty();
         public ReactiveProperty<Material> Material = new ReactiveProperty<Material>();
         public BoolReactiveProperty IsMoving = new BoolReactiveProperty();
+        public Guid BusStopId;
 
         public class Factory : PlaceholderFactory<VehicleModel>
         {

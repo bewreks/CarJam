@@ -27,6 +27,13 @@ namespace CarJam.Scripts.Queues.BusStop
             _bus.Subscribe<UserSelectionSignal>(OnVehicleSelected);
             _bus.Subscribe<StartVehicleMovingToBusStopSignal>(OnStartVehicleMoving);
             _bus.Subscribe<FinishVehicleMovingToBusStopSignal>(OnFinishVehicleMoving);
+            _bus.Subscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
+        }
+
+        private void OnVehicleMoveOutBusStop(VehicleMoveOutBusStopSignal signal)
+        {
+            var place = _queue.GetPlace(signal.BusStopId);
+            place.SetVehicle(Guid.Empty, GameColors.None);
         }
 
         private void OnFinishVehicleMoving(FinishVehicleMovingToBusStopSignal signal)
@@ -86,6 +93,7 @@ namespace CarJam.Scripts.Queues.BusStop
 
         protected override void OnDispose()
         {
+            _bus.Unsubscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
             _bus.Unsubscribe<StartVehicleMovingToBusStopSignal>(OnStartVehicleMoving);
             _bus.Unsubscribe<FinishVehicleMovingToBusStopSignal>(OnFinishVehicleMoving);
             _bus.Unsubscribe<UserSelectionSignal>(OnVehicleSelected);

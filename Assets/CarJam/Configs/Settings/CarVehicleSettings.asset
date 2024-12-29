@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: CarVehicleSettings
   m_EditorClassIdentifier: 
   <MovementSpeed>k__BackingField: 200
+  <Capacity>k__BackingField: 4
   <Materials>k__BackingField:
     _serializedList:
     - Key: 0

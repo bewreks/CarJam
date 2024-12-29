@@ -55,6 +55,7 @@ namespace CarJam.Scripts.CarJam
             var gameModel = new GameModel
             {
                 CharacterSpawnCooldown = _settings.CharacterSpawnCooldown,
+                CharacterDespawnCooldown = _settings.CharacterDespawnCooldown,
                 InGameColors = _settings.InGameColors
             };
             _signalBus.Fire(new StartGameSignal

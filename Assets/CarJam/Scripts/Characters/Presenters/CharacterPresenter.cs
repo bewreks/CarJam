@@ -34,6 +34,8 @@ namespace CarJam.Scripts.Characters.Presenters
 
         public bool IsMoving => _model.IsMoving.Value;
 
+        public GameColors Color => _model.Color;
+
         public async UniTask MoveToPosition(Vector3 position)
         {
             _movementCts?.Cancel();

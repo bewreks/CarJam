@@ -7,5 +7,6 @@ namespace CarJam.Scripts.CarJam
     {
         [field: SerializeField] public GameColors[] InGameColors { get; private set; }
         [field: SerializeField] public float CharacterSpawnCooldown { get; private set; }
+        [field: SerializeField] public float CharacterDespawnCooldown { get; private set; }
     }
 }

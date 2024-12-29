@@ -15,6 +15,8 @@ namespace CarJam.Scripts.Contexts.Installers
             Container.DeclareSignal<BusStopFoundSignal>();
             Container.DeclareSignal<StartVehicleMovingToBusStopSignal>();
             Container.DeclareSignal<FinishVehicleMovingToBusStopSignal>();
+            Container.DeclareSignal<VehicleMoveOutBusStopSignal>();
+            Container.DeclareSignal<CharacterOnAboardSignal>();
         }
     }
 }

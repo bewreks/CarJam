@@ -18,6 +18,8 @@ namespace CarJam.Scripts.Contexts.Installers
         
         public override void InstallBindings()
         {
+            Container.BindInstance(_camera).AsSingle();
+            
             Container.BindInterfacesAndSelfTo<CharactersQueueFacade>().AsSingle()
                      .WithArguments(_charactersQueue.Start.position, _charactersQueue.End.position, _characterSpawnPoint.position).NonLazy();
             
@@ -27,8 +29,7 @@ namespace CarJam.Scripts.Contexts.Installers
             Container.BindInterfacesAndSelfTo<ParkingFacade>().AsSingle()
                      .WithArguments(_rbPoint.position, _ltPoint.position).NonLazy();
             
-            Container.BindInterfacesAndSelfTo<UserInputService>().AsSingle()
-                     .WithArguments(_camera).NonLazy();
+            Container.BindInterfacesAndSelfTo<UserInputService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<CarJamGameplay>().AsSingle();
         }
     }

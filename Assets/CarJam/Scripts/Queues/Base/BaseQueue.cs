@@ -22,6 +22,8 @@ namespace CarJam.Scripts.Queues.Base
             protected set;
         }
         
+        public T First => _objects.Count > 0 ? _objects[0] : default;
+        
         public bool IsHaveEnoughSpace => Vector3.Distance(_currentPosition, _startPoint) > DistanceBetweenVehicles;
 
         protected BaseQueue(Vector3 startPoint, Vector3 finishPoint, float distanceBetweenVehicles)

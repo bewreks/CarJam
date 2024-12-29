@@ -28,7 +28,24 @@ namespace CarJam.Scripts.Queues.Parking
         {
             _presenter = _presenterFactory.Create(rbPoint, ltPoint);
             _bus.Subscribe<BusStopFoundSignal>(OnVehicleSelected);
+            _bus.Subscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
             _vehiclesLayerMask = 1 << 6;
+        }
+
+        private void OnCharacterOnAboard(CharacterOnAboardSignal signal)
+        {
+            var vehicle = _vehicles[signal.VehicleId];
+            vehicle.OnAboard();
+            if (vehicle.IsFull)
+            {
+                _bus.Fire(new VehicleMoveOutBusStopSignal
+                {
+                    BusStopId = vehicle.BusStopId,
+                    VehicleId = vehicle.Id,
+                    Color = vehicle.Color
+                });
+                vehicle.DestroySelf(); // TODO: animate move out
+            }
         }
 
         private void OnVehicleSelected(BusStopFoundSignal signal)
@@ -54,8 +71,10 @@ namespace CarJam.Scripts.Queues.Parking
             {
                 BusStopId = signal.BusStopId,
             });
+            vehicle.SetBusStopId(signal.BusStopId);
             await vehicle.MoveByWaypoints(WaypointBuilder.BuildWaypoints(vehicle, _presenter, signal.Position, signal.EnterPoint));
-            _bus.Fire(new FinishVehicleMovingToBusStopSignal{
+            _bus.Fire(new FinishVehicleMovingToBusStopSignal
+            {
                 VehicleId = signal.VehicleId, 
                 BusStopId = signal.BusStopId,
                 Color = vehicle.Color
@@ -75,6 +94,7 @@ namespace CarJam.Scripts.Queues.Parking
 
         public void Dispose()
         {
+            _bus.Unsubscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
             _bus.Unsubscribe<BusStopFoundSignal>(OnVehicleSelected);
             _vehicles.Clear();
         }
