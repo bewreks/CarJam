@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: CarJamSettings
   m_EditorClassIdentifier: 
   <InGameColors>k__BackingField: 00
-  <CharacterSpawnCooldown>k__BackingField: 0.3
+  <CharacterSpawnCooldown>k__BackingField: 0.1

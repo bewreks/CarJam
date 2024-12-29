@@ -36,10 +36,10 @@ namespace CarJam.Scripts.Queues.Base
 
         public async UniTask Enqueue(T t)
         {
-            await BeforeEnqueue(t, _startPoint);
-            _objects.Add(t);
             var nextPosition = _currentPosition;
             _currentPosition = nextPosition + _queueDirection;
+            await BeforeEnqueue(t, _startPoint);
+            _objects.Add(t);
             await AfterEnqueue(t, nextPosition);
         }
 
