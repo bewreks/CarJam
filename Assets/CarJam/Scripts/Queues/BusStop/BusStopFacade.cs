@@ -45,21 +45,9 @@ namespace CarJam.Scripts.Queues.BusStop
             
         }
 
-        public async UniTask TryToMoveVehicle(VehiclePresenter vehicle)
+        public BusStopPlacePresenter GetBusStopPresenter()
         {
-            var place = _queue.GetEmptyPlace();
-            
-            if (place == null)
-            {
-                _bus.Fire<NoMorePlacesSignal>();
-                return;
-            }
-
-            place.Reserve();
-            await vehicle.MoveToPosition(place.EnterPoint);
-            await vehicle.MoveToPosition(place.Position);
-            place.SetVehicle(vehicle);
-            place.Unreserve();
+            return _queue.GetEmptyPlace();
         }
     }
 }

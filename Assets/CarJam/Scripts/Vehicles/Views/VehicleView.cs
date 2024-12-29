@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using CarJam.Scripts.Vehicles.Models;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -24,13 +25,22 @@ namespace CarJam.Scripts.Vehicles.Views
             _model.Material.Subscribe(material => _renderer.material = material).AddTo(_disposables);
         }
 
-        public async UniTask<bool> MoveToPosition(Vector3 position, CancellationToken token)
+        public async Task<bool> MoveByWaypoints(Vector3[] waypoints, CancellationToken token)
         {
-            transform.forward = position - transform.position;
-            await transform.DOMove(position, Vector3.Distance(transform.position, position) / _model.MovementSpeed)
-                           .SetEase(Ease.Linear)
-                           .ToUniTask(cancellationToken: token);
+            await GetMovingSequence(waypoints).ToUniTask(cancellationToken: token);
             return !token.IsCancellationRequested;
+        }
+
+        private Sequence GetMovingSequence(Vector3[] waypoints)
+        {
+            var moving = DOTween.Sequence();
+            foreach (var waypoint in waypoints)
+            {
+                moving.Append(transform.DOLookAt(waypoint, 0));
+                moving.Join(transform.DOMove(waypoint, Vector3.Distance(transform.position, waypoint) / _model.MovementSpeed));
+            }
+            moving.SetEase(Ease.Linear);
+            return moving;
         }
 
         public void Dispose()

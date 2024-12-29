@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Vehicles.Models;
 using CarJam.Scripts.Vehicles.Views;
@@ -7,6 +8,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 namespace CarJam.Scripts.Vehicles.Presenters
 {
     public class VehiclePresenter : IDisposable
@@ -22,6 +24,9 @@ namespace CarJam.Scripts.Vehicles.Presenters
 
         public GameColors Color => _model.Color;
 
+        public Vector3 Position => _view.transform.position;
+        public Vector3 Direction => _view.transform.forward;
+
         [Inject]
         private void Construct(GameColors color, Vector3 spawnPoint)
         {
@@ -32,6 +37,7 @@ namespace CarJam.Scripts.Vehicles.Presenters
 
             _view = _viewFactory.Create(_model);
             _view.transform.position = spawnPoint;
+            _view.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
         }
 
         public void DestroySelf()
@@ -46,12 +52,12 @@ namespace CarJam.Scripts.Vehicles.Presenters
             _view.Dispose();
         }
 
-        public async UniTask MoveToPosition(Vector3 position)
+        public async Task MoveByWaypoints(Vector3[] waypoints)
         {
             _movementCts?.Cancel();
             _movementCts = new CancellationTokenSource();
             _model.IsMoving.Value = true;
-            var result = await _view.MoveToPosition(position, _movementCts.Token);
+            var result = await _view.MoveByWaypoints(waypoints, _movementCts.Token);
             if (result)
             {
                 _model.IsMoving.Value = false;

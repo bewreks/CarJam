@@ -5,6 +5,7 @@ using CarJam.Scripts.Characters.Views;
 using CarJam.Scripts.Queues.BusStop.Models;
 using CarJam.Scripts.Queues.BusStop.Presenters;
 using CarJam.Scripts.Queues.BusStop.Views;
+using CarJam.Scripts.Queues.Parking;
 using CarJam.Scripts.Queues.Parking.Models;
 using CarJam.Scripts.Queues.Parking.Presenters;
 using CarJam.Scripts.Vehicles.Models;
@@ -18,6 +19,7 @@ namespace CarJam.Scripts.Contexts.ScriptableObjects
     [CreateAssetMenu(fileName = "FactoriesContext", menuName = "CarJam/FactoriesContext", order = 0)]
     public class FactoriesContext : ScriptableObjectInstaller
     {
+        [field: Header("Ingame prefabs")]
         [field: SerializeField] public CharacterView CharacterPrefab { get; private set; }
         [field: SerializeField] public GameObject CarPrefab { get; private set; }
         [field: SerializeField] public GameObject BusPrefab { get; private set; }
@@ -38,7 +40,7 @@ namespace CarJam.Scripts.Contexts.ScriptableObjects
             Container.BindFactory<GameColors, Vector3, VehiclePresenter, VehiclePresenter.Factory>().AsSingle();
 
             Container.BindFactory<ParkingModel, ParkingModel.Factory>().AsSingle();
-            Container.BindFactory<ParkingPresenter, ParkingPresenter.Factory>().AsSingle();
+            Container.BindFactory<Vector3, Vector3, ParkingPresenter, ParkingPresenter.Factory>().AsSingle();
         }
     }
 }

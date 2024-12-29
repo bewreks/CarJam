@@ -50,4 +50,4 @@ MonoBehaviour:
         Value: {fileID: 2100000, guid: 13b50907e4f515b4cb521e5b708077e2, type: 2}
   <CarJamSettings>k__BackingField:
     <InGameColors>k__BackingField: 000102030405
-    <CharacterSpawnCooldown>k__BackingField: 0.5
+    <CharacterSpawnCooldown>k__BackingField: 0.3
