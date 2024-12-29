@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8dfab021d3d43a1bac8107cc8612e4c, type: 3}
+  m_Name: CarVehicleSettings
+  m_EditorClassIdentifier: 
+  <MovementSpeed>k__BackingField: 200
+  <Materials>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 2100000, guid: 655af6892c68f2e488dd60f55a080f5e, type: 2}
+    - Key: 1
+      Value: {fileID: 2100000, guid: 3321695320a96ee4d9ca5c11331e0ea1, type: 2}
+    - Key: 2
+      Value: {fileID: 2100000, guid: 218bbdf0e012ff44a9b5578deaab6010, type: 2}
+    - Key: 3
+      Value: {fileID: 2100000, guid: ae67ad8554706c64589f8140df958fb4, type: 2}
+    - Key: 4
+      Value: {fileID: 2100000, guid: 1b144cc2df70aea44bd3e9f7782630db, type: 2}
+    - Key: 5
+      Value: {fileID: 2100000, guid: 707e107d13d1bed49be4f50e0036547d, type: 2}
+    - Key: 254
+      Value: {fileID: 2100000, guid: bd107d4ce52be204d913b9a1b429f649, type: 2}

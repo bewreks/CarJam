@@ -12,42 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb9a0a0fae4439fa833d071e968657f, type: 3}
   m_Name: SettingsContext
   m_EditorClassIdentifier: 
-  <CharacterSettings>k__BackingField:
-    <MovementSpeed>k__BackingField: 10
-    <Materials>k__BackingField:
-      _serializedList:
-      - Key: 0
-        Value: {fileID: 2100000, guid: 945e2f586a1a63a49a99d9080a8e9f24, type: 2}
-      - Key: 1
-        Value: {fileID: 2100000, guid: 50a96133e4b6e95499510cfb5fc5df59, type: 2}
-      - Key: 2
-        Value: {fileID: 2100000, guid: d3c97fcb12f34504da8fee7174035365, type: 2}
-      - Key: 3
-        Value: {fileID: 2100000, guid: e2d7217574eff104680b6515aa601ef7, type: 2}
-      - Key: 4
-        Value: {fileID: 2100000, guid: 5a0b15c1ad5770a4daeb29f92e406bb8, type: 2}
-      - Key: 5
-        Value: {fileID: 2100000, guid: eae63e4521325eb4c99b1de22b4fc163, type: 2}
-  <CharactersQueueSettings>k__BackingField:
-    <DistanceBetweenCharacters>k__BackingField: 1
-  <BusStopQueueSettings>k__BackingField:
-    <DistanceBetweenVehicles>k__BackingField: 4.8
-  <VehicleSettings>k__BackingField:
-    <MovementSpeed>k__BackingField: 200
-    <Materials>k__BackingField:
-      _serializedList:
-      - Key: 0
-        Value: {fileID: 2100000, guid: 2851e6469fffc7640a0b1333a9b2519f, type: 2}
-      - Key: 1
-        Value: {fileID: 2100000, guid: c5e99272ad886484b9312930b8a73a3f, type: 2}
-      - Key: 2
-        Value: {fileID: 2100000, guid: 5c2425ed6b1f6a542b093f0031886dff, type: 2}
-      - Key: 3
-        Value: {fileID: 2100000, guid: 582c24f4d479d3c488209970af8c54d2, type: 2}
-      - Key: 4
-        Value: {fileID: 2100000, guid: c64a11100323d7147864b48f1ff464c3, type: 2}
-      - Key: 5
-        Value: {fileID: 2100000, guid: 13b50907e4f515b4cb521e5b708077e2, type: 2}
-  <CarJamSettings>k__BackingField:
-    <InGameColors>k__BackingField: 000102030405
-    <CharacterSpawnCooldown>k__BackingField: 0.3
+  <CharacterSettings>k__BackingField: {fileID: 11400000, guid: c1e604c24a877b745879cbc6e4d4d17d, type: 2}
+  <CharactersQueueSettings>k__BackingField: {fileID: 11400000, guid: 68fe73768fbf32d4782a2dde4562bb78, type: 2}
+  <BusStopQueueSettings>k__BackingField: {fileID: 11400000, guid: d4f9306f61458894cb334f3f986fbc2b, type: 2}
+  <BusVehicleSettings>k__BackingField: {fileID: 11400000, guid: ffc2a3fada712b140aeea1a3ede5b6a3, type: 2}
+  <CarVehicleSettings>k__BackingField: {fileID: 11400000, guid: 337e25caba3b8c6428d9381768b83971, type: 2}
+  <CarJamSettings>k__BackingField: {fileID: 11400000, guid: b6083cea13b8597439b7c3ec6f428905, type: 2}

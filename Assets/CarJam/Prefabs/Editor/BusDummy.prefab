@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6753961251149410280}
-  - component: {fileID: -7914495729093394654}
-  m_Layer: 0
+  - component: {fileID: -8591828692151139006}
+  - component: {fileID: 5131061881432967534}
+  m_Layer: 31
   m_Name: BusDummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,7 +34,28 @@ Transform:
   - {fileID: 5934189045166139409}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-7914495729093394654
+--- !u!65 &-8591828692151139006
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492633144789897084}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.38, y: 2, z: 9.32}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &5131061881432967534
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,10 +64,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 492633144789897084}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1d46094807b4eb0934403e2feb03c80, type: 3}
+  m_Script: {fileID: 11500000, guid: a0b6a8bd26654d189b8577bbd39fe165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderer: {fileID: 5934189045163846385}
+  <Mask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 2147483648
+  <Color>k__BackingField: 0
+  <Collider>k__BackingField: {fileID: -8591828692151139006}
+  <Renderer>k__BackingField: {fileID: 5934189045163846385}
+  <Settings>k__BackingField: {fileID: 11400000, guid: ffc2a3fada712b140aeea1a3ede5b6a3, type: 2}
+  <ErrorMaterial>k__BackingField: {fileID: 2100000, guid: 4a1021bc14da5e6418035b465cc64e00, type: 2}
+  <Type>k__BackingField: 1
 --- !u!1001 &5934189045166011025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101,7 +131,7 @@ PrefabInstance:
     - target: {fileID: 2300000, guid: 0d82ae0493e1c264bad0588fde0a3d8a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 2851e6469fffc7640a0b1333a9b2519f, type: 2}
+      objectReference: {fileID: 2100000, guid: 1252c0ad5852c2945adc8431524d6743, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

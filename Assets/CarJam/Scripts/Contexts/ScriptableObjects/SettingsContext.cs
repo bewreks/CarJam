@@ -14,7 +14,8 @@ namespace CarJam.Scripts.Contexts.ScriptableObjects
         [field: SerializeField] public CharacterSettings CharacterSettings { get; set; }
         [field: SerializeField] public CharactersQueueSettings CharactersQueueSettings { get; set; }
         [field: SerializeField] public BusStopQueueSettings BusStopQueueSettings { get; set; }
-        [field: SerializeField] public VehicleSettings VehicleSettings { get; set; }
+        [field: SerializeField] public VehicleSettings BusVehicleSettings { get; set; }
+        [field: SerializeField] public VehicleSettings CarVehicleSettings { get; set; }
         [field: SerializeField] public CarJamSettings CarJamSettings { get; set; }
 
         public override void InstallBindings()
@@ -22,7 +23,8 @@ namespace CarJam.Scripts.Contexts.ScriptableObjects
             Container.BindInstance(CharacterSettings).AsSingle();
             Container.BindInstance(CharactersQueueSettings).AsSingle();
             Container.BindInstance(BusStopQueueSettings).AsSingle();
-            Container.BindInstance(VehicleSettings).AsSingle();
+            Container.BindInstance(BusVehicleSettings).WithId("Bus").AsCached();
+            Container.BindInstance(CarVehicleSettings).WithId("Car").AsCached();
             Container.BindInstance(CarJamSettings).AsSingle();
         }
     }

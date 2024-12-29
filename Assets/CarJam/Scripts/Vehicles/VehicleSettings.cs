@@ -4,8 +4,8 @@ using CarJam.Scripts.CarJam;
 using UnityEngine;
 namespace CarJam.Scripts.Vehicles
 {
-    [Serializable]
-    public class VehicleSettings
+    [CreateAssetMenu(fileName = "VehicleSettings", menuName = "CarJam/Settings/Vehicle", order = 0)]
+    public class VehicleSettings : ScriptableObject
     {
         [field: SerializeField] public float MovementSpeed { get; private set; }
         [field: SerializeField] public SerializedDictionary<GameColors, Material> Materials { get; private set; }

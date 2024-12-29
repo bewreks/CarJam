@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 003de7500570486ca40e02d4dedeb310
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - <BusPrefab>k__BackingField: {fileID: 492633144789897084, guid: b51550c2dff02614bbd99cae1ddecd23, type: 3}
+  - <CarPrefab>k__BackingField: {fileID: 496901097662907485, guid: a208934b1026e674a85b8ee30fa75dc4, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

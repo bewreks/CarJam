@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8dfab021d3d43a1bac8107cc8612e4c, type: 3}
+  m_Name: BusVehicleSettings
+  m_EditorClassIdentifier: 
+  <MovementSpeed>k__BackingField: 200
+  <Materials>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 2100000, guid: 2851e6469fffc7640a0b1333a9b2519f, type: 2}
+    - Key: 1
+      Value: {fileID: 2100000, guid: c5e99272ad886484b9312930b8a73a3f, type: 2}
+    - Key: 2
+      Value: {fileID: 2100000, guid: 5c2425ed6b1f6a542b093f0031886dff, type: 2}
+    - Key: 3
+      Value: {fileID: 2100000, guid: 582c24f4d479d3c488209970af8c54d2, type: 2}
+    - Key: 4
+      Value: {fileID: 2100000, guid: c64a11100323d7147864b48f1ff464c3, type: 2}
+    - Key: 5
+      Value: {fileID: 2100000, guid: 13b50907e4f515b4cb521e5b708077e2, type: 2}
+    - Key: 254
+      Value: {fileID: 2100000, guid: 1252c0ad5852c2945adc8431524d6743, type: 2}
