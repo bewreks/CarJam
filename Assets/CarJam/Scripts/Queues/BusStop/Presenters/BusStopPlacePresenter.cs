@@ -1,7 +1,8 @@
-﻿using CarJam.Scripts.Queues.BusStop.Models;
+﻿using System;
+using CarJam.Scripts.CarJam;
+using CarJam.Scripts.Queues.BusStop.Models;
 using CarJam.Scripts.Queues.BusStop.Views;
 using CarJam.Scripts.Vehicles.Presenters;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 namespace CarJam.Scripts.Queues.BusStop.Presenters
@@ -14,16 +15,19 @@ namespace CarJam.Scripts.Queues.BusStop.Presenters
         private BusStopPlaceModel _model;
         private BusStopPlaceView _view;
 
-        public bool IsEmpty => _model.Vehicle == null && !_model.Reserved;
+        public bool IsEmpty => _model.Vehicle == Guid.Empty && !_model.Reserved;
 
         public Vector3 EnterPoint => _view.EnterPoint.position;
 
         public Vector3 Position => _view.transform.position;
 
+        public Guid Id => _model.Id;
+
         [Inject]
         private void Construct()
         {
             _model = _modelFactory.Create();
+            _model.Id = Guid.NewGuid();
             _view = _viewFactory.Create(_model);
         }
 
@@ -37,10 +41,10 @@ namespace CarJam.Scripts.Queues.BusStop.Presenters
             _view.transform.SetParent(parent, true);
         }
 
-        public void SetVehicle(VehiclePresenter vehicle)
+        public void SetVehicle(Guid vehicle, GameColors color)
         {
             _model.Vehicle = vehicle;
-            _model.Color = vehicle.Color;
+            _model.Color = color;
         }
 
         public void Reserve()

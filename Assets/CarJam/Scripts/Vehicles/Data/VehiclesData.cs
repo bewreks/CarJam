@@ -6,6 +6,7 @@ namespace CarJam.Scripts.Vehicles.Data
     [Serializable]
     public class VehiclesData
     {
+        public string Id;
         public Vector3 Position;
         public Vector3 Direction;
         public VehicleType Type;

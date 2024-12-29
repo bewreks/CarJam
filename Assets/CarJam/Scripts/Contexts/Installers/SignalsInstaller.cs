@@ -12,6 +12,9 @@ namespace CarJam.Scripts.Contexts.Installers
             Container.DeclareSignal<NoMorePlacesSignal>();
             Container.DeclareSignal<LevelLoadedSignal>();
             Container.DeclareSignal<StartGameSignal>();
+            Container.DeclareSignal<BusStopFoundSignal>();
+            Container.DeclareSignal<StartVehicleMovingToBusStopSignal>();
+            Container.DeclareSignal<FinishVehicleMovingToBusStopSignal>();
         }
     }
 }

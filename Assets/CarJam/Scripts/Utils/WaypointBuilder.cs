@@ -1,5 +1,4 @@
 ﻿using System;
-using CarJam.Scripts.Queues.BusStop.Presenters;
 using CarJam.Scripts.Queues.Parking.Models;
 using CarJam.Scripts.Queues.Parking.Presenters;
 using CarJam.Scripts.Vehicles.Presenters;
@@ -8,19 +7,17 @@ namespace CarJam.Scripts.Utils
 {
     public static class WaypointBuilder
     {
-        public static Vector3[] BuildWaypoints(VehiclePresenter vehicle, ParkingPresenter parking, BusStopPlacePresenter busStop)
+        public static Vector3[] BuildWaypoints(VehiclePresenter vehicle, ParkingPresenter parking, Vector3 busStopPosition, Vector3 busStopEnterPoint)
         {
-            return BuildWaypoints(vehicle.Position, vehicle.Direction, parking, busStop);
+            return BuildWaypoints(vehicle.Position, vehicle.Direction, parking, busStopPosition, busStopEnterPoint);
         }
         
-        public static Vector3[] BuildWaypoints(Vector3 position, Vector3 direction, ParkingPresenter parking, BusStopPlacePresenter busStop)
+        public static Vector3[] BuildWaypoints(Vector3 position, Vector3 direction, ParkingPresenter parking, Vector3 busStopPosition, Vector3 busStopEnterPoint)
         {
-            if (busStop == null) return Array.Empty<Vector3>();
-            
             var way = GetPointsOnParking(position, direction, parking.Model);
             
-            way[^1] = busStop.Position;
-            way[^2] = busStop.EnterPoint;
+            way[^1] = busStopPosition;
+            way[^2] = busStopEnterPoint;
             
             return way;
         }

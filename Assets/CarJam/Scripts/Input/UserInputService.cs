@@ -4,6 +4,7 @@ using CarJam.Scripts.Queues;
 using CarJam.Scripts.Queues.BusStop;
 using CarJam.Scripts.Queues.Characters;
 using CarJam.Scripts.Signals;
+using CarJam.Scripts.Vehicles.Views;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,10 +18,25 @@ namespace CarJam.Scripts.Input
         [Inject] private SignalBus _signalBus;
         
         private readonly InputActions _inputActions = new InputActions();
+        private Camera _camera;
+        
+        private int _vehiclesMask;
+
+        [Inject]
+        private void Construct(Camera camera)
+        {
+            _camera = camera;
+            _vehiclesMask = 1 << 6;
+            _signalBus.Subscribe<StartGameSignal>(OnStartGame);
+        }
+
+        private void OnStartGame()
+        {
+            _inputActions.Enable();
+        }
 
         public void Initialize()
         {
-            _inputActions.Enable();
             _inputActions.GamePlay.Select.performed += OnSelect;
             _inputActions.GamePlay.DebugSpawn.performed += OnDebugSpawn;
             _inputActions.GamePlay.DebugDespawn.performed += OnDebugDespawn;
@@ -30,10 +46,16 @@ namespace CarJam.Scripts.Input
 
         private void OnSelect(InputAction.CallbackContext obj)
         {
-            _signalBus.Fire(new UserSelectionSignal
+            var screenPoint = _inputActions.GamePlay.SelectPosition.ReadValue<Vector2>();
+            var ray = _camera.ScreenPointToRay(screenPoint);
+            if (Physics.Raycast(ray, out var hit, _camera.farClipPlane, _vehiclesMask))
             {
-                SelectionPosition = _inputActions.GamePlay.SelectPosition.ReadValue<Vector2>()
-            });
+                var vehicleView = hit.transform.GetComponent<VehicleView>();
+                _signalBus.Fire(new UserSelectionSignal
+                {
+                    VehicleId = vehicleView.Id
+                });
+            }
         }
 
         private void OnDebugSpawn(InputAction.CallbackContext obj)
@@ -58,12 +80,13 @@ namespace CarJam.Scripts.Input
 
         public void Dispose()
         {
+            _inputActions.Dispose();
+            _signalBus.Unsubscribe<StartGameSignal>(OnStartGame);
             _inputActions.GamePlay.Select.performed -= OnSelect;
             _inputActions.GamePlay.DebugSpawn.performed -= OnDebugSpawn;
             _inputActions.GamePlay.DebugDespawn.performed -= OnDebugDespawn;
             _inputActions.GamePlay.DebugSpawnBus.performed -= OnDebugSpawnBus;
             _inputActions.GamePlay.DebugDespawnBus.performed -= OnDebugDespawnBus;
-            _inputActions.Dispose();
         }
     }
 }

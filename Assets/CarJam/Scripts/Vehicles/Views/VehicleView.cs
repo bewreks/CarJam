@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using CarJam.Scripts.Vehicles.Models;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -17,6 +16,8 @@ namespace CarJam.Scripts.Vehicles.Views
         
         private VehicleModel _model;
 
+        public Guid Id => _model.Id;
+
 
         [Inject]
         private void Construct(VehicleModel model)
@@ -25,7 +26,7 @@ namespace CarJam.Scripts.Vehicles.Views
             _model.Material.Subscribe(material => _renderer.material = material).AddTo(_disposables);
         }
 
-        public async Task<bool> MoveByWaypoints(Vector3[] waypoints, CancellationToken token)
+        public async UniTask<bool> MoveByWaypoints(Vector3[] waypoints, CancellationToken token)
         {
             await GetMovingSequence(waypoints).ToUniTask(cancellationToken: token);
             return !token.IsCancellationRequested;

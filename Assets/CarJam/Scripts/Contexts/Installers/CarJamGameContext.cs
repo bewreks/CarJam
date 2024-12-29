@@ -27,7 +27,8 @@ namespace CarJam.Scripts.Contexts.Installers
             Container.BindInterfacesAndSelfTo<ParkingFacade>().AsSingle()
                      .WithArguments(_rbPoint.position, _ltPoint.position).NonLazy();
             
-            Container.BindInterfacesAndSelfTo<UserInputService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<UserInputService>().AsSingle()
+                     .WithArguments(_camera).NonLazy();
             Container.BindInterfacesAndSelfTo<CarJamGameplay>().AsSingle();
         }
     }

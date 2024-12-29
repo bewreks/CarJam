@@ -1,8 +1,8 @@
-﻿using CarJam.Scripts.CarJam;
+﻿using System;
+using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Queues.Base;
 using CarJam.Scripts.Queues.BusStop.Presenters;
 using CarJam.Scripts.Signals;
-using CarJam.Scripts.Vehicles.Presenters;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -19,6 +19,45 @@ namespace CarJam.Scripts.Queues.BusStop
         public BusStopFacade(Vector3 startPoint, Vector3 finishPoint, Transform parent) : base(startPoint, finishPoint, startPoint)
         {
             _parent = parent;
+        }
+
+        [Inject]
+        private void Construct()
+        {
+            _bus.Subscribe<UserSelectionSignal>(OnVehicleSelected);
+            _bus.Subscribe<StartVehicleMovingToBusStopSignal>(OnStartVehicleMoving);
+            _bus.Subscribe<FinishVehicleMovingToBusStopSignal>(OnFinishVehicleMoving);
+        }
+
+        private void OnFinishVehicleMoving(FinishVehicleMovingToBusStopSignal signal)
+        {
+            var place = _queue.GetPlace(signal.BusStopId);
+            place.SetVehicle(signal.VehicleId, signal.Color);
+            place.Unreserve();
+        }
+
+        private void OnStartVehicleMoving(StartVehicleMovingToBusStopSignal signal)
+        {
+            var place = _queue.GetPlace(signal.BusStopId);
+            place.Reserve();
+        }
+
+        private void OnVehicleSelected(UserSelectionSignal signal)
+        {
+            var busStop = _queue.GetEmptyPlace();
+            if (busStop == null)
+            {
+                _bus.Fire<NoMorePlacesSignal>();
+                return;
+            }
+            
+            _bus.Fire(new BusStopFoundSignal
+            {
+                BusStopId = busStop.Id,
+                Position = busStop.Position,
+                EnterPoint = busStop.EnterPoint,
+                VehicleId = signal.VehicleId
+            });
         }
 
         protected override void OnInitialize()
@@ -45,9 +84,11 @@ namespace CarJam.Scripts.Queues.BusStop
             
         }
 
-        public BusStopPlacePresenter GetBusStopPresenter()
+        protected override void OnDispose()
         {
-            return _queue.GetEmptyPlace();
+            _bus.Unsubscribe<StartVehicleMovingToBusStopSignal>(OnStartVehicleMoving);
+            _bus.Unsubscribe<FinishVehicleMovingToBusStopSignal>(OnFinishVehicleMoving);
+            _bus.Unsubscribe<UserSelectionSignal>(OnVehicleSelected);
         }
     }
 }

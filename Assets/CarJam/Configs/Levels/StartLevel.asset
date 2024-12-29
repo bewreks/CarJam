@@ -13,63 +13,78 @@ MonoBehaviour:
   m_Name: StartLevel
   m_EditorClassIdentifier: 
   _vehicles:
-  - Position: {x: -12.9, y: 0, z: 95.1}
-    Direction: {x: 0.70710677, y: 0, z: 0.7071068}
-    Type: 0
-    Color: 0
-  - Position: {x: -7.06, y: 0, z: 76.42}
-    Direction: {x: -0.70710653, y: 0, z: -0.70710707}
-    Type: 1
-    Color: 0
-  - Position: {x: -6.52, y: 0, z: 89.27}
-    Direction: {x: -0.70710677, y: 0, z: 0.7071068}
-    Type: 1
-    Color: 0
-  - Position: {x: 6.7, y: 0, z: 82.8}
+  - Id: c66211b6-f0ac-4a31-94a1-d7de20b2cfb9
+    Position: {x: -0.2, y: 0, z: 67.7}
     Direction: {x: 0.99999994, y: 0, z: -0.00000011920929}
     Type: 1
     Color: 0
-  - Position: {x: 0, y: 0, z: 76}
-    Direction: {x: 0, y: 0, z: -1}
+  - Id: 0cc7f714-3431-4f60-b0bb-403f21dc6dfd
+    Position: {x: 6.81, y: 0, z: 89.39}
+    Direction: {x: 0.70710677, y: 0, z: 0.7071068}
     Type: 1
     Color: 0
-  - Position: {x: -6.5, y: 0, z: 82.8}
+  - Id: afae193b-013d-4eec-bdd5-5d85a61cb0e2
+    Position: {x: -6.5, y: 0, z: 82.8}
     Direction: {x: -0.99999994, y: 0, z: -0.00000011920929}
     Type: 1
     Color: 0
-  - Position: {x: 6.81, y: 0, z: 89.39}
+  - Id: 9a3c5745-1846-4017-baa1-61182d615bc4
+    Position: {x: -14.6, y: 0, z: 82}
+    Direction: {x: 0, y: 0, z: 1}
+    Type: 1
+    Color: 0
+  - Id: 660154bb-dc73-418a-8fc8-e7faf4b25918
+    Position: {x: 0, y: 0, z: 89.8}
+    Direction: {x: 0, y: 0, z: 1}
+    Type: 1
+    Color: 0
+  - Id: 19d2869c-21e6-4dfb-8e80-8509ac781905
+    Position: {x: 13.8, y: 0, z: 83.7}
+    Direction: {x: 0, y: 0, z: 1}
+    Type: 1
+    Color: 0
+  - Id: 1ff4bea7-416e-4a0e-9411-b783195d3496
+    Position: {x: -6.52, y: 0, z: 89.27}
+    Direction: {x: -0.70710677, y: 0, z: 0.7071068}
+    Type: 1
+    Color: 0
+  - Id: 1d0f59ff-9ead-406b-b05c-6eb3d5cbc85a
+    Position: {x: -7.06, y: 0, z: 76.42}
+    Direction: {x: -0.70710653, y: 0, z: -0.70710707}
+    Type: 1
+    Color: 0
+  - Id: 2177cf0d-6544-45ed-b006-8be0aebff96e
+    Position: {x: 0, y: 0, z: 76}
+    Direction: {x: 0, y: 0, z: -1}
+    Type: 1
+    Color: 0
+  - Id: 3ff69d7f-af6a-4a2d-885c-d99ed38b9f06
+    Position: {x: 11.7, y: 0, z: 71.2}
     Direction: {x: 0.70710677, y: 0, z: 0.7071068}
-    Type: 1
+    Type: 0
     Color: 0
-  - Position: {x: 0, y: 0, z: 89.8}
-    Direction: {x: 0, y: 0, z: 1}
-    Type: 1
-    Color: 0
-  - Position: {x: -14.6, y: 0, z: 82}
-    Direction: {x: 0, y: 0, z: 1}
-    Type: 1
-    Color: 0
-  - Position: {x: 6.31, y: 0, z: 76.35}
-    Direction: {x: 0.7071067, y: 0, z: -0.70710707}
-    Type: 1
-    Color: 0
-  - Position: {x: 13.8, y: 0, z: 83.7}
-    Direction: {x: 0, y: 0, z: 1}
-    Type: 1
-    Color: 0
-  - Position: {x: -0.2, y: 0, z: 67.7}
-    Direction: {x: 0.99999994, y: 0, z: -0.00000011920929}
-    Type: 1
-    Color: 0
-  - Position: {x: 11, y: 0, z: 94.8}
+  - Id: c7ce8be4-0dab-4ef6-963e-e77012c05250
+    Position: {x: 11, y: 0, z: 94.8}
     Direction: {x: -0.70710677, y: 0, z: 0.7071068}
     Type: 0
     Color: 0
-  - Position: {x: 11.7, y: 0, z: 71.2}
+  - Id: 8ce94798-6be7-4453-a74f-f45856d389bb
+    Position: {x: -12.9, y: 0, z: 95.1}
     Direction: {x: 0.70710677, y: 0, z: 0.7071068}
     Type: 0
     Color: 0
-  - Position: {x: -13, y: 0, z: 71}
-    Direction: {x: 0.7071067, y: 0, z: -0.70710707}
+  - Id: ee46343c-6aa7-495f-ae95-b7aa80474c3c
+    Position: {x: 6.7, y: 0, z: 82.8}
+    Direction: {x: 0.99999994, y: 0, z: -0.00000011920929}
+    Type: 1
+    Color: 0
+  - Id: aebe6405-5d7d-4c2d-8574-ac4aa88e96ab
+    Position: {x: -13, y: 0, z: 71}
+    Direction: {x: 0.7071066, y: 0, z: -0.70710707}
     Type: 0
+    Color: 0
+  - Id: 640c67d9-6563-42aa-b137-bcd637110a79
+    Position: {x: 6.31, y: 0, z: 76.35}
+    Direction: {x: 0.7071066, y: 0, z: -0.70710707}
+    Type: 1
     Color: 0

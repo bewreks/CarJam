@@ -1,16 +1,18 @@
-﻿using CarJam.Scripts.CarJam;
-using CarJam.Scripts.Vehicles.Presenters;
+﻿using System;
+using CarJam.Scripts.CarJam;
 using Zenject;
 namespace CarJam.Scripts.Queues.BusStop.Models
 {
     public class BusStopPlaceModel
     {
-        public VehiclePresenter Vehicle;
+        public Guid Vehicle = Guid.Empty;
         public GameColors Color = GameColors.None;
         public bool Reserved;
+        public Guid Id;
 
         public class Factory : PlaceholderFactory<BusStopPlaceModel>
         {
         }
+
     }
 }

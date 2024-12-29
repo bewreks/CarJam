@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using CarJam.Scripts.Vehicles.Data;
 using CarJam.Scripts.Vehicles.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -47,13 +49,14 @@ namespace CarJam.Scripts.CarJam.Editor
                     DummyVehicleView view;
                     var data = list.GetArrayElementAtIndex(i);
 
+                    var id = data.FindPropertyRelative("Id").stringValue;
                     switch (data.FindPropertyRelative("Type").intValue)
                     {
                         case (int)VehicleType.Bus:
-                            view = CreateDummyVehicle(BusPrefab);
+                            view = CreateDummyVehicle(BusPrefab, id);
                             break;
                         case (int)VehicleType.Car:
-                            view = CreateDummyVehicle(CarPrefab);
+                            view = CreateDummyVehicle(CarPrefab, id);
                             break;
                         default:
                             continue;
@@ -85,6 +88,7 @@ namespace CarJam.Scripts.CarJam.Editor
                     data.FindPropertyRelative("Type").intValue = (int)dummies[i].Type;
                     data.FindPropertyRelative("Position").vector3Value = dummies[i].transform.position;
                     data.FindPropertyRelative("Direction").vector3Value = dummies[i].transform.forward;
+                    data.FindPropertyRelative("Id").stringValue = Guid.NewGuid().ToString();
                 }
                 serializedObject.ApplyModifiedProperties();
                 Save();
@@ -98,16 +102,16 @@ namespace CarJam.Scripts.CarJam.Editor
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Create bus"))
             {
-                CreateDummyVehicle(BusPrefab);
+                CreateDummyVehicle(BusPrefab, Guid.NewGuid().ToString());
             }
             if (GUILayout.Button("Create car"))
             {
-                CreateDummyVehicle(CarPrefab);
+                CreateDummyVehicle(CarPrefab, Guid.NewGuid().ToString());
             }
             EditorGUILayout.EndHorizontal();
         }
 
-        private DummyVehicleView CreateDummyVehicle(GameObject prefab)
+        private DummyVehicleView CreateDummyVehicle(GameObject prefab, string id)
         {
             var sceneView = SceneView.lastActiveSceneView;
             var ray = sceneView.camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 1));
@@ -118,6 +122,7 @@ namespace CarJam.Scripts.CarJam.Editor
                 spawnPoint = ray.GetPoint(distance);
             }
             var vehicleGo = Instantiate(prefab, spawnPoint, Quaternion.identity, CreateDummyContainer());
+            vehicleGo.name = id;
             var view = vehicleGo.GetComponent<DummyVehicleView>();
             view.SetColor(_selectedColor);
             return view;

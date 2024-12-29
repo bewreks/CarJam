@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Vehicles.Data;
 using CarJam.Scripts.Vehicles.Models;
@@ -9,7 +8,6 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 namespace CarJam.Scripts.Vehicles.Presenters
 {
     public class VehiclePresenter : IDisposable
@@ -34,11 +32,13 @@ namespace CarJam.Scripts.Vehicles.Presenters
             var viewFactory = _container.ResolveId<VehicleView.Factory>(data.Type);
 
             _model = _modelFactory.Create();
+            _model.Id = Guid.Parse(data.Id);
             _model.Color = data.Color;
             _model.Material.Value = settings.Materials[data.Color];
             _model.MovementSpeed = settings.MovementSpeed;
 
             _view = viewFactory.Create(_model);
+            _view.name = data.Id;
             _view.transform.position = data.Position;
             _view.transform.forward = data.Direction;
         }
@@ -55,7 +55,7 @@ namespace CarJam.Scripts.Vehicles.Presenters
             _view.Dispose();
         }
 
-        public async Task MoveByWaypoints(Vector3[] waypoints)
+        public async UniTask MoveByWaypoints(Vector3[] waypoints)
         {
             _movementCts?.Cancel();
             _movementCts = new CancellationTokenSource();
