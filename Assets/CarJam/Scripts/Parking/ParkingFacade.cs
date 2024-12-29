@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Queues.BusStop;
@@ -13,53 +14,36 @@ namespace CarJam.Scripts.Queues.Parking
 {
     public class ParkingFacade : IDisposable
     {
-        [Inject] private BusStopFacade _busStopFacade;
         [Inject] private VehiclePresenter.Factory _vehiclePresenterFactory;
         [Inject] private ParkingPresenter.Factory _presenterFactory;
         [Inject] private SignalBus _bus;
         
         private ParkingPresenter _presenter;
-        private Camera _camera;
-        private Plane _plane;
+
+        public ParkingPresenter Presenter => _presenter;
+        
+        private List<VehiclePresenter> _vehicles = new List<VehiclePresenter>();
 
         [Inject]
-        private void Construct(Vector3 rbPoint, Vector3 ltPoint, Camera camera)
+        private void Construct(Vector3 rbPoint, Vector3 ltPoint)
         {
-            _plane = new Plane(Vector3.up, Vector3.zero);
-
-            _camera = camera;
             _presenter = _presenterFactory.Create(rbPoint, ltPoint);
-
-            _bus.Subscribe<DebugPlaceBusSignal>(OnPlaceBus);
         }
 
-        private async void OnPlaceBus(DebugPlaceBusSignal signal)
+        public void LoadLevel(LevelScriptableObject level)
         {
-            var ray = _camera.ScreenPointToRay(signal.SelectionPosition);
-            if (_plane.Raycast(ray, out var distance))
+            _vehicles.Clear();
+            foreach (var vehicleData in level.Vehicles)
             {
-                var busStop = _busStopFacade.GetBusStopPresenter();
-                if (busStop == null)
-                {
-                    _bus.Fire<NoMorePlacesSignal>();
-                    return;
-                }
-                var vehicle = _vehiclePresenterFactory.Create(GameColors.Blue, ray.GetPoint(distance));
-                busStop.Reserve();
-                await vehicle.MoveByWaypoints(WaypointBuilder.BuildWaypoints(vehicle, _presenter, busStop));
-                busStop.SetVehicle(vehicle);
-                busStop.Reserve();
+                _vehicles.Add(_vehiclePresenterFactory.Create(vehicleData));
             }
+
+            _bus.Fire<LevelLoadedSignal>();
         }
 
         public void Dispose()
         {
-            _bus.Unsubscribe<DebugPlaceBusSignal>(OnPlaceBus);
-        }
-
-        public ParkingPresenter GetPresenter()
-        {
-            return _presenter;
+            _vehicles.Clear();
         }
     }
 }

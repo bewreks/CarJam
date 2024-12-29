@@ -37,6 +37,12 @@ namespace CarJam.Scripts.Queues.Base
         public void Dispose()
         {
             _queue.Dispose();
+            OnDispose();
+        }
+
+        protected virtual void OnDispose()
+        {
+            
         }
 
         public async UniTask Enqueue(GameColors color)

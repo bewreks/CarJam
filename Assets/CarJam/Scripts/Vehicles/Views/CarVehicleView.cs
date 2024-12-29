@@ -1,6 +1,6 @@
 ﻿namespace CarJam.Scripts.Vehicles.Views
 {
-    public class CarView : VehicleView
+    public class CarVehicleView : VehicleView
     {
         
     }

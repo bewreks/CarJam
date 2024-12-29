@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6753961251149410280}
   - component: {fileID: -7914495729093394654}
+  - component: {fileID: 8084678712744467722}
   m_Layer: 0
   m_Name: Bus
   m_TagString: Untagged
@@ -46,6 +47,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 5934189045163846385}
+--- !u!65 &8084678712744467722
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492633144789897084}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.38, y: 2, z: 9.32}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &5934189045166011025
 PrefabInstance:
   m_ObjectHideFlags: 0

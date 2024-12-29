@@ -30,7 +30,7 @@ namespace CarJam.Scripts.Input
 
         private void OnSelect(InputAction.CallbackContext obj)
         {
-            _signalBus.Fire(new DebugPlaceBusSignal//UserSelectionSignal
+            _signalBus.Fire(new UserSelectionSignal
             {
                 SelectionPosition = _inputActions.GamePlay.SelectPosition.ReadValue<Vector2>()
             });

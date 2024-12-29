@@ -4,6 +4,7 @@ using CarJam.Scripts.Queues;
 using CarJam.Scripts.Queues.BusStop;
 using CarJam.Scripts.Queues.Characters;
 using CarJam.Scripts.Vehicles;
+using CarJam.Scripts.Vehicles.Data;
 using UnityEngine;
 using Zenject;
 namespace CarJam.Scripts.Contexts.ScriptableObjects
@@ -23,8 +24,8 @@ namespace CarJam.Scripts.Contexts.ScriptableObjects
             Container.BindInstance(CharacterSettings).AsSingle();
             Container.BindInstance(CharactersQueueSettings).AsSingle();
             Container.BindInstance(BusStopQueueSettings).AsSingle();
-            Container.BindInstance(BusVehicleSettings).WithId("Bus").AsCached();
-            Container.BindInstance(CarVehicleSettings).WithId("Car").AsCached();
+            Container.BindInstance(BusVehicleSettings).WithId(VehicleType.Bus).AsCached();
+            Container.BindInstance(CarVehicleSettings).WithId(VehicleType.Car).AsCached();
             Container.BindInstance(CarJamSettings).AsSingle();
         }
     }

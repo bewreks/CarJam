@@ -25,7 +25,7 @@ namespace CarJam.Scripts.Contexts.Installers
                      .WithArguments(_parkingQueue.Start.position, _parkingQueue.End.position, _parkingQueue.transform).NonLazy();
 
             Container.BindInterfacesAndSelfTo<ParkingFacade>().AsSingle()
-                     .WithArguments(_rbPoint.position, _ltPoint.position, _camera).NonLazy();
+                     .WithArguments(_rbPoint.position, _ltPoint.position).NonLazy();
             
             Container.BindInterfacesAndSelfTo<UserInputService>().AsSingle();
             Container.BindInterfacesAndSelfTo<CarJamGameplay>().AsSingle();

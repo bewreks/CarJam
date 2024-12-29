@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: FactoriesContext
   m_EditorClassIdentifier: 
   <CharacterPrefab>k__BackingField: {fileID: 2022753609212421484, guid: 951848e5e321d8d42a725dfe9be5909c, type: 3}
-  <CarPrefab>k__BackingField: {fileID: 496901097662907485, guid: a208934b1026e674a85b8ee30fa75dc4, type: 3}
+  <CarPrefab>k__BackingField: {fileID: 496901097662907485, guid: e030428b257f6344cb73724dc7a44400, type: 3}
   <BusPrefab>k__BackingField: {fileID: 492633144789897084, guid: c8126ba09f82f6142b9b6d224e100289, type: 3}
   <BusStopPlacePrefab>k__BackingField: {fileID: 7391550612531570007, guid: 26d3975097219e548b2d05baa8f56fa6, type: 3}

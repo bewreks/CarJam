@@ -10,8 +10,8 @@ namespace CarJam.Scripts.Contexts.Installers
             
             Container.DeclareSignal<UserSelectionSignal>();
             Container.DeclareSignal<NoMorePlacesSignal>();
-            
-            Container.DeclareSignal<DebugPlaceBusSignal>();
+            Container.DeclareSignal<LevelLoadedSignal>();
+            Container.DeclareSignal<StartGameSignal>();
         }
     }
 }

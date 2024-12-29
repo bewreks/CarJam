@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CarJam.Scripts.CarJam;
+using CarJam.Scripts.Vehicles.Data;
 using CarJam.Scripts.Vehicles.Models;
 using CarJam.Scripts.Vehicles.Views;
 using Cysharp.Threading.Tasks;
@@ -13,9 +14,8 @@ namespace CarJam.Scripts.Vehicles.Presenters
 {
     public class VehiclePresenter : IDisposable
     {
-        [Inject] private VehicleSettings _settings;
         [Inject] private VehicleModel.Factory _modelFactory;
-        [Inject] private VehicleView.Factory _viewFactory;
+        [Inject] private DiContainer _container;
         
         private VehicleModel _model;
         private VehicleView _view;
@@ -28,16 +28,19 @@ namespace CarJam.Scripts.Vehicles.Presenters
         public Vector3 Direction => _view.transform.forward;
 
         [Inject]
-        private void Construct(GameColors color, Vector3 spawnPoint)
+        private void Construct(VehiclesData data)
         {
-            _model = _modelFactory.Create();
-            _model.Color = color;
-            _model.Material.Value = _settings.Materials[color];
-            _model.MovementSpeed = _settings.MovementSpeed;
+            var settings = _container.ResolveId<VehicleSettings>(data.Type);
+            var viewFactory = _container.ResolveId<VehicleView.Factory>(data.Type);
 
-            _view = _viewFactory.Create(_model);
-            _view.transform.position = spawnPoint;
-            _view.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+            _model = _modelFactory.Create();
+            _model.Color = data.Color;
+            _model.Material.Value = settings.Materials[data.Color];
+            _model.MovementSpeed = settings.MovementSpeed;
+
+            _view = viewFactory.Create(_model);
+            _view.transform.position = data.Position;
+            _view.transform.forward = data.Direction;
         }
 
         public void DestroySelf()
@@ -64,7 +67,7 @@ namespace CarJam.Scripts.Vehicles.Presenters
             }
         }
         
-        public class Factory : PlaceholderFactory<GameColors, Vector3, VehiclePresenter>
+        public class Factory : PlaceholderFactory<VehiclesData, VehiclePresenter>
         {
             
         }
