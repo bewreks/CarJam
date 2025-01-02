@@ -46,42 +46,6 @@ namespace CarJam.Scripts.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""DebugSpawn"",
-                    ""type"": ""Button"",
-                    ""id"": ""687bb91d-de48-45cd-8932-fa21be94a0ce"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""DebugSpawnBus"",
-                    ""type"": ""Button"",
-                    ""id"": ""dc0badb3-e920-45f4-bd27-ab7d9918b44d"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""DebugDespawn"",
-                    ""type"": ""Button"",
-                    ""id"": ""4e20f530-d805-40d2-a95e-052774346f6b"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""DebugDespawnBus"",
-                    ""type"": ""Button"",
-                    ""id"": ""d8e3197a-5664-4712-ab84-ba5e86511d23"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -126,50 +90,6 @@ namespace CarJam.Scripts.Input
                     ""processors"": """",
                     ""groups"": "";Touch"",
                     ""action"": ""SelectPosition"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9a15ac88-c8d1-4c65-8004-baef411cf4a1"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""DebugSpawn"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cd9e5d74-db82-46a8-8b07-c27c2afbe244"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""DebugSpawnBus"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""81756e14-54cf-4afc-a8f9-76d74b58135c"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""DebugDespawn"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""45854975-bfd7-4c41-ba78-e4384e6e1852"",
-                    ""path"": ""<Keyboard>/g"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""DebugDespawnBus"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -759,10 +679,6 @@ namespace CarJam.Scripts.Input
             m_GamePlay = asset.FindActionMap("GamePlay", throwIfNotFound: true);
             m_GamePlay_Select = m_GamePlay.FindAction("Select", throwIfNotFound: true);
             m_GamePlay_SelectPosition = m_GamePlay.FindAction("SelectPosition", throwIfNotFound: true);
-            m_GamePlay_DebugSpawn = m_GamePlay.FindAction("DebugSpawn", throwIfNotFound: true);
-            m_GamePlay_DebugSpawnBus = m_GamePlay.FindAction("DebugSpawnBus", throwIfNotFound: true);
-            m_GamePlay_DebugDespawn = m_GamePlay.FindAction("DebugDespawn", throwIfNotFound: true);
-            m_GamePlay_DebugDespawnBus = m_GamePlay.FindAction("DebugDespawnBus", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -844,20 +760,12 @@ namespace CarJam.Scripts.Input
         private List<IGamePlayActions> m_GamePlayActionsCallbackInterfaces = new List<IGamePlayActions>();
         private readonly InputAction m_GamePlay_Select;
         private readonly InputAction m_GamePlay_SelectPosition;
-        private readonly InputAction m_GamePlay_DebugSpawn;
-        private readonly InputAction m_GamePlay_DebugSpawnBus;
-        private readonly InputAction m_GamePlay_DebugDespawn;
-        private readonly InputAction m_GamePlay_DebugDespawnBus;
         public struct GamePlayActions
         {
             private @InputActions m_Wrapper;
             public GamePlayActions(@InputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Select => m_Wrapper.m_GamePlay_Select;
             public InputAction @SelectPosition => m_Wrapper.m_GamePlay_SelectPosition;
-            public InputAction @DebugSpawn => m_Wrapper.m_GamePlay_DebugSpawn;
-            public InputAction @DebugSpawnBus => m_Wrapper.m_GamePlay_DebugSpawnBus;
-            public InputAction @DebugDespawn => m_Wrapper.m_GamePlay_DebugDespawn;
-            public InputAction @DebugDespawnBus => m_Wrapper.m_GamePlay_DebugDespawnBus;
             public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -873,18 +781,6 @@ namespace CarJam.Scripts.Input
                 @SelectPosition.started += instance.OnSelectPosition;
                 @SelectPosition.performed += instance.OnSelectPosition;
                 @SelectPosition.canceled += instance.OnSelectPosition;
-                @DebugSpawn.started += instance.OnDebugSpawn;
-                @DebugSpawn.performed += instance.OnDebugSpawn;
-                @DebugSpawn.canceled += instance.OnDebugSpawn;
-                @DebugSpawnBus.started += instance.OnDebugSpawnBus;
-                @DebugSpawnBus.performed += instance.OnDebugSpawnBus;
-                @DebugSpawnBus.canceled += instance.OnDebugSpawnBus;
-                @DebugDespawn.started += instance.OnDebugDespawn;
-                @DebugDespawn.performed += instance.OnDebugDespawn;
-                @DebugDespawn.canceled += instance.OnDebugDespawn;
-                @DebugDespawnBus.started += instance.OnDebugDespawnBus;
-                @DebugDespawnBus.performed += instance.OnDebugDespawnBus;
-                @DebugDespawnBus.canceled += instance.OnDebugDespawnBus;
             }
 
             private void UnregisterCallbacks(IGamePlayActions instance)
@@ -895,18 +791,6 @@ namespace CarJam.Scripts.Input
                 @SelectPosition.started -= instance.OnSelectPosition;
                 @SelectPosition.performed -= instance.OnSelectPosition;
                 @SelectPosition.canceled -= instance.OnSelectPosition;
-                @DebugSpawn.started -= instance.OnDebugSpawn;
-                @DebugSpawn.performed -= instance.OnDebugSpawn;
-                @DebugSpawn.canceled -= instance.OnDebugSpawn;
-                @DebugSpawnBus.started -= instance.OnDebugSpawnBus;
-                @DebugSpawnBus.performed -= instance.OnDebugSpawnBus;
-                @DebugSpawnBus.canceled -= instance.OnDebugSpawnBus;
-                @DebugDespawn.started -= instance.OnDebugDespawn;
-                @DebugDespawn.performed -= instance.OnDebugDespawn;
-                @DebugDespawn.canceled -= instance.OnDebugDespawn;
-                @DebugDespawnBus.started -= instance.OnDebugDespawnBus;
-                @DebugDespawnBus.performed -= instance.OnDebugDespawnBus;
-                @DebugDespawnBus.canceled -= instance.OnDebugDespawnBus;
             }
 
             public void RemoveCallbacks(IGamePlayActions instance)
@@ -1091,10 +975,6 @@ namespace CarJam.Scripts.Input
         {
             void OnSelect(InputAction.CallbackContext context);
             void OnSelectPosition(InputAction.CallbackContext context);
-            void OnDebugSpawn(InputAction.CallbackContext context);
-            void OnDebugSpawnBus(InputAction.CallbackContext context);
-            void OnDebugDespawn(InputAction.CallbackContext context);
-            void OnDebugDespawnBus(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
