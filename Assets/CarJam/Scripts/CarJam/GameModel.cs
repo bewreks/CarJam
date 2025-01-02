@@ -5,5 +5,6 @@
         public float CharacterSpawnCooldown;
         public float CharacterDespawnCooldown;
         public Level CurrentLevel;
+        public int Score;
     }
 }

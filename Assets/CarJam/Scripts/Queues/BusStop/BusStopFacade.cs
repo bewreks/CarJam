@@ -98,5 +98,11 @@ namespace CarJam.Scripts.Queues.BusStop
             _bus.Unsubscribe<FinishVehicleMovingToBusStopSignal>(OnFinishVehicleMoving);
             _bus.Unsubscribe<UserSelectionSignal>(OnVehicleSelected);
         }
+
+        public void Clear()
+        {
+            _queue.Clear();
+            OnInitialize();
+        }
     }
 }

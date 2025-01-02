@@ -14,7 +14,7 @@ namespace CarJam.Scripts.CarJam
     public class CarJamGameplay : IDisposable
     {
         [Inject] private CarJamSettings _settings;
-        [Inject] private LazyInject<CharactersQueueFacade> _charactersQueue;
+        [Inject] private LazyInject<CharactersQueueFacade> _characters;
         [Inject] private LazyInject<BusStopFacade> _busStops;
         [Inject] private LazyInject<ParkingFacade> _parking;
         [Inject] private LevelScriptableObject _level;
@@ -27,32 +27,72 @@ namespace CarJam.Scripts.CarJam
         [Inject]
         public void Construct()
         {
-            var settings = new VehicleSettings[Enum.GetNames(typeof(VehicleType)).Length];
+            _signalBus.Subscribe<StartGameSignal>(OnStartGame);
+            _signalBus.Subscribe<RestartGameSignal>(OnRestartGame);
+            _signalBus.Subscribe<LevelLoadedSignal>(OnLevelLoaded);
+            _signalBus.Subscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
+        }
+
+        private void OnRestartGame()
+        {
+            _gameModel.CurrentLevel = _level.CreateLevel(GetVehicleSettings());
             
-            foreach (var type in Enum.GetValues(typeof(VehicleType)).Cast<VehicleType>())
-            {
-                settings[(int) type] = _container.ResolveId<VehicleSettings>(type);
-            }
+            _characters.Value.Clear();
+            _busStops.Value.Clear();
+            _parking.Value.Clear();
             
+            _parking.Value.LoadLevel(_gameModel.CurrentLevel);
+        }
+
+        private void OnStartGame()
+        {
             _gameModel = new GameModel
             {
                 CharacterSpawnCooldown = _settings.CharacterSpawnCooldown,
                 CharacterDespawnCooldown = _settings.CharacterDespawnCooldown,
-                CurrentLevel = _level.CreateLevel(settings)
+                CurrentLevel = _level.CreateLevel(GetVehicleSettings())
             };
-            _signalBus.Subscribe<LevelLoadedSignal>(OnLevelLoaded);
+            
             _parking.Value.LoadLevel(_gameModel.CurrentLevel);
+        }
+
+        private VehicleSettings[] GetVehicleSettings()
+        {
+
+            var settings = new VehicleSettings[Enum.GetNames(typeof(VehicleType)).Length];
+
+            foreach (var type in Enum.GetValues(typeof(VehicleType)).Cast<VehicleType>())
+            {
+                settings[(int) type] = _container.ResolveId<VehicleSettings>(type);
+            }
+            return settings;
+        }
+
+        private void OnCharacterOnAboard()
+        {
+            _gameModel.Score += 1;
+            _signalBus.Fire(new ScoreUpdateSignal
+            {
+                Score = _gameModel.Score
+            });
         }
 
         private void StartGameCountdown()
         {
+            _signalBus.Fire(new CountDownSignal
+            {
+                Countdown = _settings.StartGameCountdown + 1
+            });
             IDisposable disposable = null;
             disposable = Observable.Interval( TimeSpan.FromSeconds(1))
                                    .TakeWhile(timer => timer <= _settings.StartGameCountdown)
                                    .Select(l => _settings.StartGameCountdown - l)
                                    .Subscribe(counter =>
                                    {
-                                       Debug.Log($"Start game countdown: {counter}");
+                                       _signalBus.Fire(new CountDownSignal
+                                       {
+                                           Countdown = (int)counter
+                                       });
                                        if (counter <= 0)
                                        {
                                            // ReSharper disable once AccessToModifiedClosure
@@ -67,7 +107,7 @@ namespace CarJam.Scripts.CarJam
 
         private void FireStart()
         {
-            _signalBus.Fire(new StartGameSignal
+            _signalBus.Fire(new GameStartedSignal
             {
                 GameModel = _gameModel
             });
@@ -75,6 +115,9 @@ namespace CarJam.Scripts.CarJam
 
         public void Dispose()
         {
+            _signalBus.Unsubscribe<StartGameSignal>(OnStartGame);
+            _signalBus.Unsubscribe<RestartGameSignal>(OnRestartGame);
+            _signalBus.Unsubscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
             _signalBus.Unsubscribe<LevelLoadedSignal>(OnLevelLoaded);
             _disposables.Dispose();
         }

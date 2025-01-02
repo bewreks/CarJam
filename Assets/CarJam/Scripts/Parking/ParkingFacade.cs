@@ -111,5 +111,14 @@ namespace CarJam.Scripts.Parking
             _bus.Unsubscribe<BusStopFoundSignal>(OnVehicleSelected);
             _vehicles.Clear();
         }
+
+        public void Clear()
+        {
+            foreach (var (key, value) in _vehicles)
+            {
+                value.DestroySelf();
+            }
+            _vehicles.Clear();
+        }
     }
 }

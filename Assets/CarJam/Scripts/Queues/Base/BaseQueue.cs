@@ -52,6 +52,12 @@ namespace CarJam.Scripts.Queues.Base
             return obj;
         }
 
+        public void Clear()
+        {
+            _objects.Clear();
+            _currentPosition = _finishPoint;
+        }
+
         public abstract UniTask UpdateQueue();
         protected abstract UniTask BeforeEnqueue(T t, Vector3 position);
         protected abstract UniTask AfterEnqueue(T t, Vector3 position);

@@ -27,7 +27,7 @@ namespace CarJam.Scripts.Input
         {
             _camera = camera;
             _vehiclesMask = 1 << 6;
-            _signalBus.Subscribe<StartGameSignal>(OnStartGame);
+            _signalBus.Subscribe<GameStartedSignal>(OnStartGame);
         }
 
         private void OnStartGame()
@@ -81,7 +81,7 @@ namespace CarJam.Scripts.Input
         public void Dispose()
         {
             _inputActions.Dispose();
-            _signalBus.Unsubscribe<StartGameSignal>(OnStartGame);
+            _signalBus.Unsubscribe<GameStartedSignal>(OnStartGame);
             _inputActions.GamePlay.Select.performed -= OnSelect;
             _inputActions.GamePlay.DebugSpawn.performed -= OnDebugSpawn;
             _inputActions.GamePlay.DebugDespawn.performed -= OnDebugDespawn;
