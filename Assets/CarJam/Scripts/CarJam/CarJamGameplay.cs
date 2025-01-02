@@ -50,10 +50,21 @@ namespace CarJam.Scripts.CarJam
             {
                 CharacterSpawnCooldown = _settings.CharacterSpawnCooldown,
                 CharacterDespawnCooldown = _settings.CharacterDespawnCooldown,
-                CurrentLevel = _level.CreateLevel(GetVehicleSettings())
+                CurrentLevel = _level.CreateLevel(GetVehicleSettings()),
+                Score = new IntReactiveProperty()
             };
+
+            _gameModel.Score.Subscribe(OnScoreChanged).AddTo(_disposables);
             
             _parking.Value.LoadLevel(_gameModel.CurrentLevel);
+        }
+
+        private void OnScoreChanged(int score)
+        {
+            _signalBus.Fire(new ScoreUpdateSignal
+            {
+                Score = score
+            });
         }
 
         private VehicleSettings[] GetVehicleSettings()
@@ -70,11 +81,7 @@ namespace CarJam.Scripts.CarJam
 
         private void OnCharacterOnAboard()
         {
-            _gameModel.Score += 1;
-            _signalBus.Fire(new ScoreUpdateSignal
-            {
-                Score = _gameModel.Score
-            });
+            _gameModel.Score.Value += 1;
         }
 
         private void StartGameCountdown()

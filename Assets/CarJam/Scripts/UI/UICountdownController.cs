@@ -24,6 +24,7 @@ namespace CarJam.Scripts.UI
             _countdownText.alpha = 0;
 
             _signalBus.Subscribe<StartGameSignal>(OnStarGame);
+            _signalBus.Subscribe<RestartGameSignal>(OnStarGame);
             _signalBus.Subscribe<CountDownSignal>(OnCountDown);
         }
 
@@ -47,6 +48,7 @@ namespace CarJam.Scripts.UI
         public void Dispose()
         {
             _signalBus.Unsubscribe<StartGameSignal>(OnStarGame);
+            _signalBus.Unsubscribe<RestartGameSignal>(OnStarGame);
             _signalBus.Unsubscribe<CountDownSignal>(OnCountDown);
         }
     }

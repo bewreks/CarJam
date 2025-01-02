@@ -28,6 +28,12 @@ namespace CarJam.Scripts.Input
             _camera = camera;
             _vehiclesMask = 1 << 6;
             _signalBus.Subscribe<GameStartedSignal>(OnStartGame);
+            _signalBus.Subscribe<LevelClearedSignal>(OnLevelCleared);
+        }
+
+        private void OnLevelCleared()
+        {
+            _inputActions.Disable();
         }
 
         private void OnStartGame()

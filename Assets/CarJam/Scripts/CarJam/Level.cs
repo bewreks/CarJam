@@ -13,7 +13,7 @@ namespace CarJam.Scripts.CarJam
         public Level(VehiclesData[] vehicles, GameColors[] usedColors, params VehicleSettings[] vehicleSettings)
         {
             Vehicles = vehicles;
-
+            
             foreach (var data in Vehicles.Where(data => data.Color == GameColors.Unknown))
             {
                 data.Color = usedColors[Random.Range(0, usedColors.Length)];

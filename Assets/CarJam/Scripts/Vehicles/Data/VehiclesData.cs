@@ -11,6 +11,11 @@ namespace CarJam.Scripts.Vehicles.Data
         public Vector3 Direction;
         public VehicleType Type;
         public GameColors Color;
+
+        public VehiclesData Clone()
+        {
+            return (VehiclesData) MemberwiseClone();
+        }
     }
     
     public enum VehicleType : byte

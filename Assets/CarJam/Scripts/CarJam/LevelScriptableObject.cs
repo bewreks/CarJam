@@ -18,7 +18,13 @@ namespace CarJam.Scripts.CarJam
 
         public Level CreateLevel(params VehicleSettings[] vehicleSettings)
         {
-            var level = new Level(_vehicles, _usedColors, vehicleSettings);
+            var vehicles = new VehiclesData[_vehicles.Length];
+            for (var i = 0; i < _vehicles.Length; i++)
+            {
+                vehicles[i] = _vehicles[i].Clone();
+            }
+            
+            var level = new Level(vehicles, _usedColors, vehicleSettings);
             return level;
         }
     }
