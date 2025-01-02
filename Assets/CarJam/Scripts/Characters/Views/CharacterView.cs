@@ -31,6 +31,7 @@ namespace CarJam.Scripts.Characters.Views
 
         public async UniTask<bool> MoveToPosition(Vector3 position, CancellationToken token)
         {
+            if (transform.position == position) return true; 
             transform.forward = position - transform.position;
             await transform.DOMove(position, Vector3.Distance(transform.position, position) / _model.MovementSpeed)
                            .SetEase(Ease.Linear)

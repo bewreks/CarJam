@@ -9,6 +9,7 @@ namespace CarJam.Scripts.Vehicles.Models
     {
         public Guid Id;
         public GameColors Color;
+        public float RotationSpeed;
         public float MovementSpeed;
         public int MaxCapacity;
         public IntReactiveProperty CurrentCapacity = new IntReactiveProperty();

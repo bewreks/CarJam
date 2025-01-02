@@ -9,6 +9,7 @@ namespace CarJam.Scripts.Vehicles
     public class VehicleSettings : ScriptableObject
     {
         [field: SerializeField] public VehicleType Type { get; private set; }
+        [field: SerializeField] public float RotationSpeed { get; private set; }
         [field: SerializeField] public float MovementSpeed { get; private set; }
         [field: SerializeField] public int Capacity { get; private set; }
         [field: SerializeField] public SerializedDictionary<GameColors, Material> Materials { get; private set; }

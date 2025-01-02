@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using CarJam.Scripts.CarJam;
+using CarJam.Scripts.Utils;
 using CarJam.Scripts.Vehicles.Data;
 using CarJam.Scripts.Vehicles.Models;
 using CarJam.Scripts.Vehicles.Views;
@@ -42,6 +43,7 @@ namespace CarJam.Scripts.Vehicles.Presenters
             _model.MaxCapacity = settings.Capacity;
             _model.Material.Value = settings.Materials[data.Color];
             _model.MovementSpeed = settings.MovementSpeed;
+            _model.RotationSpeed = settings.RotationSpeed;
 
             _view = viewFactory.Create(_model);
             _view.name = data.Id;
@@ -61,7 +63,7 @@ namespace CarJam.Scripts.Vehicles.Presenters
             _view.Dispose();
         }
 
-        public async UniTask MoveByWaypoints(Vector3[] waypoints)
+        public async UniTask MoveByWaypoints(Waypoint[] waypoints)
         {
             _movementCts?.Cancel();
             _movementCts = new CancellationTokenSource();

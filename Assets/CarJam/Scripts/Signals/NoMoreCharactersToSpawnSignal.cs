@@ -1,8 +1,7 @@
 ﻿namespace CarJam.Scripts.Signals
 {
-    public struct LevelClearedSignal
+    public struct NoMoreCharactersToSpawnSignal
     {
         
     }
-
 }

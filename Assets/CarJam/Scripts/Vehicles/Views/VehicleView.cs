@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using CarJam.Scripts.Utils;
 using CarJam.Scripts.Vehicles.Models;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -8,6 +9,7 @@ using UnityEngine;
 using Zenject;
 namespace CarJam.Scripts.Vehicles.Views
 {
+    [SelectionBase]
     public class VehicleView : MonoBehaviour, IDisposable
     {
         [SerializeField] private Renderer _renderer;
@@ -35,25 +37,52 @@ namespace CarJam.Scripts.Vehicles.Views
             _canvas.worldCamera = gameCamera;
         }
 
-        public async UniTask<bool> MoveByWaypoints(Vector3[] waypoints, CancellationToken token)
+        public async UniTask<bool> MoveByWaypoints(Waypoint[] waypoints, CancellationToken token)
         {
             await GetMovingSequence(waypoints).ToUniTask(cancellationToken: token);
             return !token.IsCancellationRequested;
         }
 
-        private Sequence GetMovingSequence(Vector3[] waypoints)
+        private Sequence GetMovingSequence(Waypoint[] waypoints)
         {
             var moving = DOTween.Sequence();
+            var cachedPosition = transform.position;
+            var cachedDirection = transform.forward;
             foreach (var waypoint in waypoints)
             {
-                moving.Append(transform.DOLookAt(waypoint, 0));
-                moving.Join(transform.DOMove(waypoint, Vector3.Distance(transform.position, waypoint) / _model.MovementSpeed));
+                var toDirection = (waypoint.Position - cachedPosition).normalized;
+
+                if (waypoint.Reverse)
+                {
+                    toDirection = -toDirection;
+                }
+                
+                var rotationDistance = 1 - (Vector3.Dot(cachedDirection, toDirection) + 1) / 2;
+                var movingDistance = Vector3.Distance(transform.position, waypoint.Position);
+
+                var rotationDuration = 0f;
+                var movingDuration = 0f;
+                if (_model.RotationSpeed != 0)
+                {
+                    rotationDuration = rotationDistance / _model.RotationSpeed;
+                }
+                if (_model.MovementSpeed != 0)
+                {
+                    movingDuration = movingDistance / _model.MovementSpeed;
+                }
+                moving.Append(DOTween.To(() => transform.forward, x =>
+                {
+                    transform.forward = x;
+                }, toDirection, rotationDuration).SetEase(Ease.Linear));
+                moving.Append(transform.DOMove(waypoint.Position, movingDuration).SetEase(Ease.Linear));
+
+                cachedPosition = waypoint.Position;
+                cachedDirection = toDirection;
             }
             moving.OnComplete(() =>
             {
                 _canvas.gameObject.SetActive(true);
             });
-            moving.SetEase(Ease.Linear);
             return moving;
         }
 

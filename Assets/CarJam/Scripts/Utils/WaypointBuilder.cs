@@ -7,22 +7,22 @@ namespace CarJam.Scripts.Utils
 {
     public static class WaypointBuilder
     {
-        public static Vector3[] BuildWaypoints(VehiclePresenter vehicle, ParkingPresenter parking, Vector3 busStopPosition, Vector3 busStopEnterPoint)
+        public static Waypoint[] BuildWaypoints(VehiclePresenter vehicle, ParkingPresenter parking, Vector3 busStopPosition, Vector3 busStopEnterPoint)
         {
             return BuildWaypoints(vehicle.Position, vehicle.Direction, parking, busStopPosition, busStopEnterPoint);
         }
         
-        public static Vector3[] BuildWaypoints(Vector3 position, Vector3 direction, ParkingPresenter parking, Vector3 busStopPosition, Vector3 busStopEnterPoint)
+        public static Waypoint[] BuildWaypoints(Vector3 position, Vector3 direction, ParkingPresenter parking, Vector3 busStopPosition, Vector3 busStopEnterPoint)
         {
             var way = GetPointsOnParking(position, direction, parking.Model);
             
-            way[^1] = busStopPosition;
-            way[^2] = busStopEnterPoint;
+            way[^1] = new Waypoint(busStopPosition);
+            way[^2] = new Waypoint(busStopEnterPoint);
             
             return way;
         }
 
-        private static Vector3[] GetPointsOnParking(Vector3 position, Vector3 direction, ParkingModel parkingModel)
+        private static Waypoint[] GetPointsOnParking(Vector3 position, Vector3 direction, ParkingModel parkingModel)
         {
             var ltNormalized = parkingModel.LtPoint - position;
             var rbNormalized = parkingModel.RbPoint - position;
@@ -62,45 +62,45 @@ namespace CarJam.Scripts.Utils
                 }
             }
 
-            Vector3[] way; 
+            Waypoint[] way; 
 
             if (hasHit)
             {
                 if (normal == Vector3.back)
                 {
-                    way = new Vector3[3];
+                    way = new Waypoint[3];
                 } else if (normal == Vector3.forward)
                 {
-                    way = new Vector3[5];
+                    way = new Waypoint[5];
 
                     if (direction.x > 0)
                     {
-                        way[1] = parkingModel.RbPoint;
-                        way[2] = parkingModel.RtPoint;
+                        way[1] = new Waypoint(parkingModel.RbPoint);
+                        way[2] = new Waypoint(parkingModel.RtPoint);
                     }
                     else
                     {
-                        way[1] = parkingModel.LbPoint;
-                        way[2] = parkingModel.LtPoint;
+                        way[1] = new Waypoint(parkingModel.LbPoint);
+                        way[2] = new Waypoint(parkingModel.LtPoint);
                     }
                 }
                 else
                 {
-                    way = new Vector3[4];
+                    way = new Waypoint[4];
                     if (direction.x > 0)
                     {
-                        way[1] = parkingModel.RtPoint;
+                        way[1] = new Waypoint(parkingModel.RtPoint);
                     }
                     else
                     {
-                        way[1] = parkingModel.LtPoint;
+                        way[1] = new Waypoint(parkingModel.LtPoint);
                     }
                 }
-                way[0] = ray.GetPoint(minDistance);
+                way[0] = new Waypoint(ray.GetPoint(minDistance));
             }
             else
             {
-                way = Array.Empty<Vector3>();
+                way = Array.Empty<Waypoint>();
             }
             
             return way;

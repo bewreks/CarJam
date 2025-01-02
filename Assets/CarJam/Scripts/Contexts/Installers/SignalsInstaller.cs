@@ -18,6 +18,7 @@ namespace CarJam.Scripts.Contexts.Installers
             Container.DeclareSignal<VehicleMoveOutBusStopSignal>();
             Container.DeclareSignal<CharacterOnAboardSignal>();
             Container.DeclareSignal<LevelClearedSignal>();
+            Container.DeclareSignal<NoMoreCharactersToSpawnSignal>();
         }
     }
 }

@@ -65,7 +65,7 @@ namespace CarJam.Scripts.Queues.Base
         {
             if (!_queue.IsCanDequeue ||
                 _queue.UpdateInProgress) return;
-            
+
             var obj = _queue.Dequeue();
             OnDequeue(obj);
             _queue.UpdateQueue().Forget();

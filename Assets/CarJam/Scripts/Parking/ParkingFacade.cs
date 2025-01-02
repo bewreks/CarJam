@@ -18,12 +18,14 @@ namespace CarJam.Scripts.Parking
         
         private ParkingPresenter _presenter;
 
-        private Dictionary<Guid, VehiclePresenter> _vehicles = new Dictionary<Guid, VehiclePresenter>();
+        private Vector3 _outPoint;
         private int _vehiclesLayerMask;
+        private Dictionary<Guid, VehiclePresenter> _vehicles = new Dictionary<Guid, VehiclePresenter>();
 
         [Inject]
-        private void Construct(Vector3 rbPoint, Vector3 ltPoint)
+        private void Construct(Vector3 rbPoint, Vector3 ltPoint, Vector3 outPoint)
         {
+            _outPoint = outPoint;
             _presenter = _presenterFactory.Create(rbPoint, ltPoint);
             _bus.Subscribe<BusStopFoundSignal>(OnVehicleSelected);
             _bus.Subscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
@@ -42,7 +44,19 @@ namespace CarJam.Scripts.Parking
                     VehicleId = vehicle.Id,
                     Color = vehicle.Color
                 });
-                vehicle.DestroySelf(); // TODO: animate move out
+                var ray = new Ray(vehicle.Position, -vehicle.Direction);
+                if (_presenter.Model.TopPlane.Raycast(ray, out var distance))
+                {
+                    var waypoints = new Waypoint[2];
+                    waypoints[0] = new Waypoint(ray.GetPoint(distance), true);
+                    waypoints[1] = new Waypoint(_outPoint);
+                    vehicle.MoveByWaypoints(waypoints).Forget(); 
+                }
+                else
+                {
+                    vehicle.DestroySelf();
+                }
+                 
             }
         }
 
@@ -70,7 +84,8 @@ namespace CarJam.Scripts.Parking
                 BusStopId = signal.BusStopId,
             });
             vehicle.SetBusStopId(signal.BusStopId);
-            await vehicle.MoveByWaypoints(WaypointBuilder.BuildWaypoints(vehicle, _presenter, signal.Position, signal.EnterPoint));
+            var waypoints = WaypointBuilder.BuildWaypoints(vehicle, _presenter, signal.Position, signal.EnterPoint);
+            await vehicle.MoveByWaypoints(waypoints);
             _bus.Fire(new FinishVehicleMovingToBusStopSignal
             {
                 VehicleId = signal.VehicleId, 

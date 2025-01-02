@@ -14,6 +14,8 @@ namespace CarJam.Scripts.Queues.Characters
 
         public override bool UpdateInProgress { get; protected set; }
 
+        public int Count => _objects.Count;
+
         public override void Dispose()
         {
             _objects.ForEach(presenter => presenter.Dispose());

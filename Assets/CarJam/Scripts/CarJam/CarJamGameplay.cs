@@ -48,12 +48,12 @@ namespace CarJam.Scripts.CarJam
         {
             IDisposable disposable = null;
             disposable = Observable.Interval( TimeSpan.FromSeconds(1))
-                                   .TakeWhile(timer => timer <= 2)
-                                   .Select(l => 2 - l)
+                                   .TakeWhile(timer => timer <= _settings.StartGameCountdown)
+                                   .Select(l => _settings.StartGameCountdown - l)
                                    .Subscribe(counter =>
                                    {
                                        Debug.Log($"Start game countdown: {counter}");
-                                       if (counter == 0)
+                                       if (counter <= 0)
                                        {
                                            // ReSharper disable once AccessToModifiedClosure
                                            _disposables.Remove(disposable);

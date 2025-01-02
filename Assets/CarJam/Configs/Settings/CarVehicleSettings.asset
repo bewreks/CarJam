@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8dfab021d3d43a1bac8107cc8612e4c, type: 3}
   m_Name: CarVehicleSettings
   m_EditorClassIdentifier: 
+  <Type>k__BackingField: 0
+  <RotationSpeed>k__BackingField: 0
   <MovementSpeed>k__BackingField: 200
   <Capacity>k__BackingField: 4
   <Materials>k__BackingField:

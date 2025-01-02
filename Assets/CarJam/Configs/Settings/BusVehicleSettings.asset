@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BusVehicleSettings
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 1
+  <RotationSpeed>k__BackingField: 0
   <MovementSpeed>k__BackingField: 200
   <Capacity>k__BackingField: 8
   <Materials>k__BackingField:

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c94a92f26b324499b7d2d9a80decfc4f, type: 3}
   m_Name: CarJamSettings
   m_EditorClassIdentifier: 
-  <InGameColors>k__BackingField: 00
+  <StartGameCountdown>k__BackingField: 2
   <CharacterSpawnCooldown>k__BackingField: 0.1
   <CharacterDespawnCooldown>k__BackingField: 0.1

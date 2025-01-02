@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1538064234582631765}
-  - component: {fileID: -2951195877573933250}
   - component: {fileID: 1576261309413788325}
   - component: {fileID: -8194137970453794408}
   m_Layer: 31
@@ -35,19 +34,6 @@ Transform:
   - {fileID: 2466417003792233073}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-2951195877573933250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 496901097662907485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1d46094807b4eb0934403e2feb03c80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _renderer: {fileID: 0}
 --- !u!65 &1576261309413788325
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -89,6 +75,7 @@ MonoBehaviour:
   <Renderer>k__BackingField: {fileID: 2466417003794133137}
   <Settings>k__BackingField: {fileID: 11400000, guid: 337e25caba3b8c6428d9381768b83971, type: 2}
   <ErrorMaterial>k__BackingField: {fileID: 2100000, guid: 673ca440c0545b0459cf7ffc4159749f, type: 2}
+  <Type>k__BackingField: 0
 --- !u!1001 &2466417003792099569
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ namespace CarJam.Scripts.Contexts.Installers
         [SerializeField] private Transform _characterSpawnPoint;
         [SerializeField] private QueueView _charactersQueue;
         [SerializeField] private QueueView _parkingQueue;
-        [SerializeField] private Transform _rbPoint, _ltPoint;
+        [SerializeField] private Transform _rbPoint, _ltPoint, _outPoint;
         
         public override void InstallBindings()
         {
@@ -27,7 +27,7 @@ namespace CarJam.Scripts.Contexts.Installers
                      .WithArguments(_parkingQueue.Start.position, _parkingQueue.End.position, _parkingQueue.transform).NonLazy();
 
             Container.BindInterfacesAndSelfTo<ParkingFacade>().AsSingle()
-                     .WithArguments(_rbPoint.position, _ltPoint.position).NonLazy();
+                     .WithArguments(_rbPoint.position, _ltPoint.position, _outPoint.position).NonLazy();
             
             Container.BindInterfacesAndSelfTo<UserInputService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<CarJamGameplay>().AsSingle();

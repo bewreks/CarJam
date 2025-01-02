@@ -86,7 +86,7 @@ namespace CarJam.Scripts.Queues.Characters
         {
             if (_counter.Count == 0)
             {
-                _signalBus.Fire<LevelClearedSignal>();
+                _signalBus.Fire<NoMoreCharactersToSpawnSignal>();
                 _spawnHandler.Dispose();
                 _spawnHandler = null;
                 return;
@@ -120,6 +120,10 @@ namespace CarJam.Scripts.Queues.Characters
             {
                 VehicleId = _vehiclesOnBusStop[obj.Color][0]
             });
+            if (_queue.Count == 0)
+            {
+                _signalBus.Fire<LevelClearedSignal>();
+            }
         }
 
         protected override void OnDispose()
