@@ -1,10 +1,7 @@
-﻿using System;
-using CarJam.Scripts.CarJam;
+﻿using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Vehicles.Data;
-using UniRx;
 using UnityEngine;
-using UnityEngine.Serialization;
-namespace CarJam.Scripts.Vehicles.Editor
+namespace CarJam.Scripts.Vehicles.Dummies
 {
     [SelectionBase]
     [ExecuteInEditMode]

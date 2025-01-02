@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8dfab021d3d43a1bac8107cc8612e4c, type: 3}
   m_Name: BusVehicleSettings
   m_EditorClassIdentifier: 
+  <Type>k__BackingField: 1
   <MovementSpeed>k__BackingField: 200
   <Capacity>k__BackingField: 8
   <Materials>k__BackingField:

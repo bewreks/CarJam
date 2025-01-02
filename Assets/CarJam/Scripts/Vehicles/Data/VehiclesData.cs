@@ -13,9 +13,9 @@ namespace CarJam.Scripts.Vehicles.Data
         public GameColors Color;
     }
     
-    public enum VehicleType
+    public enum VehicleType : byte
     {
-        Car,
+        Car = 0,
         Bus
     } 
 }

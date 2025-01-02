@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using CarJam.Scripts.CarJam;
-using CarJam.Scripts.Queues.BusStop.Presenters;
-using CarJam.Scripts.Queues.Parking.Presenters;
+using CarJam.Scripts.Parking.Presenters;
 using CarJam.Scripts.Signals;
 using CarJam.Scripts.Utils;
 using CarJam.Scripts.Vehicles.Presenters;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
-namespace CarJam.Scripts.Queues.Parking
+namespace CarJam.Scripts.Parking
 {
     public class ParkingFacade : IDisposable
     {
@@ -81,7 +79,7 @@ namespace CarJam.Scripts.Queues.Parking
             });
         }
 
-        public void LoadLevel(LevelScriptableObject level)
+        public void LoadLevel(Level level)
         {
             _vehicles.Clear();
             foreach (var vehicleData in level.Vehicles)

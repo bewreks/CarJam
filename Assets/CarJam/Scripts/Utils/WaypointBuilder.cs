@@ -1,6 +1,6 @@
 ﻿using System;
-using CarJam.Scripts.Queues.Parking.Models;
-using CarJam.Scripts.Queues.Parking.Presenters;
+using CarJam.Scripts.Parking.Models;
+using CarJam.Scripts.Parking.Presenters;
 using CarJam.Scripts.Vehicles.Presenters;
 using UnityEngine;
 namespace CarJam.Scripts.Utils

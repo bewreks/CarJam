@@ -20,12 +20,13 @@ namespace CarJam.Scripts.Queues.Characters
         
         protected override float DistanceBetweenObject => _settings.DistanceBetweenCharacters;
         
-        private CompositeDisposable _disposables = new CompositeDisposable();
         private GameModel _gameModel;
         
         private Dictionary<GameColors, List<Guid>> _vehiclesOnBusStop;
 
+        private IDisposable _spawnHandler;
         private IDisposable _despawnHandler;
+        private Dictionary<GameColors, int> _counter;
 
         public CharactersQueueFacade(Vector3 startPoint, Vector3 finishPoint, Vector3 characterSpawnPoint) : base(startPoint, finishPoint, characterSpawnPoint)
         {
@@ -77,12 +78,27 @@ namespace CarJam.Scripts.Queues.Characters
         private void OnStartGame(StartGameSignal signal)
         {
             _gameModel = signal.GameModel;
-            Observable.Timer(TimeSpan.FromSeconds(_gameModel.CharacterSpawnCooldown)).Repeat().Subscribe(OnCharacterSpawn).AddTo(_disposables);
+            _counter = _gameModel.CurrentLevel.CharactersCounter;
+            _spawnHandler = Observable.Timer(TimeSpan.FromSeconds(_gameModel.CharacterSpawnCooldown)).Repeat().Subscribe(OnCharacterSpawn);
         }
 
         private void OnCharacterSpawn(long _)
         {
-            Enqueue(_gameModel.InGameColors[Random.Range(0, _gameModel.InGameColors.Length)]).Forget();
+            if (_counter.Count == 0)
+            {
+                _signalBus.Fire<LevelClearedSignal>();
+                _spawnHandler.Dispose();
+                _spawnHandler = null;
+                return;
+            }
+            var (key, value) = _counter.ElementAt(Random.Range(0, _counter.Count));
+            Enqueue(key).Forget();
+        }
+
+        protected override void BeforeEnqueue(GameColors color)
+        {
+            _counter[color]--;
+            if (_counter[color] == 0) _counter.Remove(color);
         }
 
         private void OnCharacterDespawn(long _)
@@ -111,7 +127,7 @@ namespace CarJam.Scripts.Queues.Characters
             _signalBus.Unsubscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
             _signalBus.Unsubscribe<FinishVehicleMovingToBusStopSignal>(OnVehicleOnBusStop);
             _signalBus.Unsubscribe<StartGameSignal>(OnStartGame);
-            _disposables.Dispose();
+            _spawnHandler?.Dispose();
             _despawnHandler?.Dispose();
         }
     }

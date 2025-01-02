@@ -1,9 +1,9 @@
 ﻿using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Input;
+using CarJam.Scripts.Parking;
 using CarJam.Scripts.Queues;
 using CarJam.Scripts.Queues.BusStop;
 using CarJam.Scripts.Queues.Characters;
-using CarJam.Scripts.Queues.Parking;
 using UnityEngine;
 using Zenject;
 namespace CarJam.Scripts.Contexts.Installers

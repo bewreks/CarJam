@@ -1,7 +1,7 @@
-﻿using CarJam.Scripts.Queues.Parking.Models;
+﻿using CarJam.Scripts.Parking.Models;
 using UnityEngine;
 using Zenject;
-namespace CarJam.Scripts.Queues.Parking.Presenters
+namespace CarJam.Scripts.Parking.Presenters
 {
     public class ParkingPresenter
     {

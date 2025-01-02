@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using CarJam.Scripts.Vehicles.Data;
-using CarJam.Scripts.Vehicles.Editor;
+using CarJam.Scripts.Vehicles.Dummies;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditorInternal;
@@ -88,7 +88,7 @@ namespace CarJam.Scripts.CarJam.Editor
                     data.FindPropertyRelative("Type").intValue = (int)dummies[i].Type;
                     data.FindPropertyRelative("Position").vector3Value = dummies[i].transform.position;
                     data.FindPropertyRelative("Direction").vector3Value = dummies[i].transform.forward;
-                    data.FindPropertyRelative("Id").stringValue = Guid.NewGuid().ToString();
+                    data.FindPropertyRelative("Id").stringValue = dummies[i].name;
                 }
                 serializedObject.ApplyModifiedProperties();
                 Save();
@@ -162,10 +162,11 @@ namespace CarJam.Scripts.CarJam.Editor
 
         private void DrawProperties()
         {
-            var list = VehiclesProperty;
             GUI.enabled = false;
-            EditorGUILayout.PropertyField(list, new GUIContent("Vehicles"), true);
+            EditorGUILayout.PropertyField(VehiclesProperty, new GUIContent("Vehicles"), true);
             GUI.enabled = true;
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("_usedColors"), new GUIContent("Colors for level"), true);
+            serializedObject.ApplyModifiedProperties();
         }
 
         private void Save()

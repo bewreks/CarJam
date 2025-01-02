@@ -4,6 +4,6 @@
     {
         public float CharacterSpawnCooldown;
         public float CharacterDespawnCooldown;
-        public GameColors[] InGameColors;
+        public Level CurrentLevel;
     }
 }

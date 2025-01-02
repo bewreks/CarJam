@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Zenject;
-namespace CarJam.Scripts.Queues.Parking.Models
+namespace CarJam.Scripts.Parking.Models
 {
     public class ParkingModel
     {

@@ -49,10 +49,17 @@ namespace CarJam.Scripts.Queues.Base
         {
             if (!_queue.IsHaveEnoughSpace ||
                 _queue.UpdateInProgress) return;
-
+            
+            BeforeEnqueue(color);
+            
             var obj = TFactory(color);
             await _queue.Enqueue(obj);
         }
+
+        protected virtual void BeforeEnqueue(GameColors color)
+        {
+            
+        } 
         
         public void Dequeue()
         {
