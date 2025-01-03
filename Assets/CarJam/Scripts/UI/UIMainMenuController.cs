@@ -33,6 +33,8 @@ namespace CarJam.Scripts.UI
             _restartButton.gameObject.SetActive(false);
             _message.gameObject.SetActive(false);
             
+            _canvas.gameObject.SetActive(true);
+            
             _signalBus.Subscribe<GameStartedSignal>(OnGameStarted);
             _signalBus.Subscribe<LevelClearedSignal>(OnLevelCleared);
         }

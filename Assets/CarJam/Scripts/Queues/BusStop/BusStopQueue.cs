@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using CarJam.Scripts.Queues.Base;
 using CarJam.Scripts.Queues.BusStop.Presenters;
 using Cysharp.Threading.Tasks;
@@ -20,17 +21,17 @@ namespace CarJam.Scripts.Queues.BusStop
             protected set;
         }
         
-        public override UniTask UpdateQueue()
+        public override UniTask UpdateQueue(CancellationToken token)
         {
             return UniTask.CompletedTask; 
         }
 
-        protected override UniTask BeforeEnqueue(BusStopPlacePresenter t, Vector3 position)
+        protected override UniTask BeforeEnqueue(BusStopPlacePresenter t, Vector3 position, CancellationToken token)
         {
             return UniTask.CompletedTask; 
         }
 
-        protected override UniTask AfterEnqueue(BusStopPlacePresenter t, Vector3 position)
+        protected override UniTask AfterEnqueue(BusStopPlacePresenter t, Vector3 position, CancellationToken token)
         {
             t.PlaceToPosition(position);
             return UniTask.CompletedTask;

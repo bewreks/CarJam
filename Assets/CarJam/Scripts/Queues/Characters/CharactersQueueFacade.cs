@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Characters.Presenters;
 using CarJam.Scripts.Queues.Base;
@@ -28,6 +29,8 @@ namespace CarJam.Scripts.Queues.Characters
         private IDisposable _despawnHandler;
         private Dictionary<GameColors, int> _counter;
 
+        private CancellationTokenSource _cancellationToken;
+
         public CharactersQueueFacade(Vector3 startPoint, Vector3 finishPoint, Vector3 characterSpawnPoint) : base(startPoint, finishPoint, characterSpawnPoint)
         {
         }
@@ -35,10 +38,30 @@ namespace CarJam.Scripts.Queues.Characters
         protected override void OnInitialize()
         {
             _vehiclesOnBusStop = new Dictionary<GameColors, List<Guid>>();
+            InitializeCancellationToken();
             InitializeVehicleDictionaries();
+            SubscribeToSignals();
+        }
+        
+        private void SubscribeToSignals()
+        {
             _signalBus.Subscribe<GameStartedSignal>(OnStartGame);
             _signalBus.Subscribe<FinishVehicleMovingToBusStopSignal>(OnVehicleOnBusStop);
             _signalBus.Subscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
+        }
+        
+        private void UnsubscribeFromSignals()
+        {
+            _signalBus.Unsubscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
+            _signalBus.Unsubscribe<FinishVehicleMovingToBusStopSignal>(OnVehicleOnBusStop);
+            _signalBus.Unsubscribe<GameStartedSignal>(OnStartGame);
+        }
+
+        private void InitializeCancellationToken()
+        {
+            _cancellationToken?.Cancel();
+            _cancellationToken?.Dispose();
+            _cancellationToken = new CancellationTokenSource();
         }
 
         private void InitializeVehicleDictionaries()
@@ -69,10 +92,12 @@ namespace CarJam.Scripts.Queues.Characters
 
         private void SubscribeToDespawn()
         {
-            if (_despawnHandler == null)
-            {
-                _despawnHandler = Observable.Timer(TimeSpan.FromSeconds(_gameModel.CharacterDespawnCooldown)).Repeat().Subscribe(OnCharacterDespawn);
-            }
+            _despawnHandler ??= Observable.Timer(TimeSpan.FromSeconds(_gameModel.CharacterDespawnCooldown)).Repeat().Subscribe(OnCharacterDespawn);
+        }
+        
+        private void SubscribeToSpawn()
+        {
+            _spawnHandler ??= Observable.Timer(TimeSpan.FromSeconds(_gameModel.CharacterSpawnCooldown)).Repeat().Subscribe(OnCharacterSpawn);
         }
 
         private void UnsubscribeToDespawn()
@@ -85,7 +110,7 @@ namespace CarJam.Scripts.Queues.Characters
         {
             _gameModel = startedSignal.GameModel;
             _counter = _gameModel.CurrentLevel.CharactersCounter;
-            _spawnHandler = Observable.Timer(TimeSpan.FromSeconds(_gameModel.CharacterSpawnCooldown)).Repeat().Subscribe(OnCharacterSpawn);
+            SubscribeToSpawn();
         }
 
         private void OnCharacterSpawn(long _)
@@ -98,7 +123,7 @@ namespace CarJam.Scripts.Queues.Characters
                 return;
             }
             var (key, value) = _counter.ElementAt(Random.Range(0, _counter.Count));
-            Enqueue(key).Forget();
+            Enqueue(key, _cancellationToken.Token).Forget();
         }
 
         protected override void BeforeEnqueue(GameColors color)
@@ -111,7 +136,7 @@ namespace CarJam.Scripts.Queues.Characters
         {
             if (_vehiclesOnBusStop[_queue.First.Color].Count == 0) return;
             
-            Dequeue();
+            Dequeue(_cancellationToken.Token);
         }
 
         protected override CharacterPresenter TFactory(GameColors color)
@@ -134,22 +159,19 @@ namespace CarJam.Scripts.Queues.Characters
 
         protected override void OnDispose()
         {
-            _signalBus.Unsubscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
-            _signalBus.Unsubscribe<FinishVehicleMovingToBusStopSignal>(OnVehicleOnBusStop);
-            _signalBus.Unsubscribe<GameStartedSignal>(OnStartGame);
-            _spawnHandler?.Dispose();
-            _despawnHandler?.Dispose();
-        }
-
-        public void Clear()
-        {
             _spawnHandler?.Dispose();
             _spawnHandler = null;
             _despawnHandler?.Dispose();
             _despawnHandler = null;
-            _queue.Clear();
+            UnsubscribeFromSignals();
+            _counter?.Clear();
+        }
+
+        public void Restart()
+        {
+            InitializeCancellationToken();
+            SubscribeToSignals();
             InitializeVehicleDictionaries();
-            _counter.Clear();
         }
     }
 

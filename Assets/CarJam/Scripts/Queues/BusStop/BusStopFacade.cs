@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Queues.Base;
 using CarJam.Scripts.Queues.BusStop.Presenters;
@@ -15,6 +16,8 @@ namespace CarJam.Scripts.Queues.BusStop
         [Inject] private SignalBus _bus;
         
         private readonly Transform _parent;
+        
+        private CancellationTokenSource _cancellationToken;
         
         public BusStopFacade(Vector3 startPoint, Vector3 finishPoint, Transform parent) : base(startPoint, finishPoint, startPoint)
         {
@@ -69,11 +72,13 @@ namespace CarJam.Scripts.Queues.BusStop
 
         protected override void OnInitialize()
         {
+            _cancellationToken = new CancellationTokenSource();
+            
             var placesCount = (int)(Vector3.Distance(_startPoint, _finishPoint) / DistanceBetweenObject);
             
             for (var i = 0; i < placesCount; i++)
             {
-                Enqueue(GameColors.None).Forget();
+                Enqueue(GameColors.None, _cancellationToken.Token).Forget();
             }
         }
 

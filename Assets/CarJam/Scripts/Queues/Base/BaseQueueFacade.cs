@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using CarJam.Scripts.CarJam;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -45,7 +46,7 @@ namespace CarJam.Scripts.Queues.Base
             
         }
 
-        public async UniTask Enqueue(GameColors color)
+        public async UniTask Enqueue(GameColors color, CancellationToken token)
         {
             if (!_queue.IsHaveEnoughSpace ||
                 _queue.UpdateInProgress) return;
@@ -53,7 +54,7 @@ namespace CarJam.Scripts.Queues.Base
             BeforeEnqueue(color);
             
             var obj = TFactory(color);
-            await _queue.Enqueue(obj);
+            await _queue.Enqueue(obj, token);
         }
 
         protected virtual void BeforeEnqueue(GameColors color)
@@ -61,14 +62,14 @@ namespace CarJam.Scripts.Queues.Base
             
         } 
         
-        public void Dequeue()
+        public void Dequeue(CancellationToken token)
         {
             if (!_queue.IsCanDequeue ||
                 _queue.UpdateInProgress) return;
 
             var obj = _queue.Dequeue();
             OnDequeue(obj);
-            _queue.UpdateQueue().Forget();
+            _queue.UpdateQueue(token).Forget();
         }
 
         protected abstract T TFactory(GameColors color);

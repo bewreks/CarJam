@@ -1,4 +1,5 @@
-﻿using CarJam.Scripts.Characters.Presenters;
+﻿using System.Threading;
+using CarJam.Scripts.Characters.Presenters;
 using CarJam.Scripts.Queues.Base;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -18,16 +19,17 @@ namespace CarJam.Scripts.Queues.Characters
 
         public override void Dispose()
         {
-            _objects.ForEach(presenter => presenter.Dispose());
+            _objects.ForEach(presenter => presenter.DestroySelf());
+            Clear();
         }
 
-        public override UniTask UpdateQueue()
+        public override UniTask UpdateQueue(CancellationToken token)
         {
             UpdateInProgress = true;
             _currentPosition = _finishPoint;
             foreach (var character in _objects)
             {
-                character.MoveToPosition(_currentPosition).Forget();
+                character.MoveToPosition(_currentPosition, token).Forget();
                 _currentPosition += _queueDirection;
             }
             
@@ -35,14 +37,14 @@ namespace CarJam.Scripts.Queues.Characters
             return UniTask.CompletedTask; 
         }
 
-        async protected override UniTask BeforeEnqueue(CharacterPresenter t, Vector3 position)
+        async protected override UniTask BeforeEnqueue(CharacterPresenter t, Vector3 position, CancellationToken token)
         {
-            await t.MoveToPosition(_startPoint);
+            await t.MoveToPosition(_startPoint, token);
         }
 
-        async protected override UniTask AfterEnqueue(CharacterPresenter t, Vector3 position)
+        async protected override UniTask AfterEnqueue(CharacterPresenter t, Vector3 position, CancellationToken token)
         {
-            await t.MoveToPosition(position);
+            await t.MoveToPosition(position, token);
         }
     }
 }

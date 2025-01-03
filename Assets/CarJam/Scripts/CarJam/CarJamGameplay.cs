@@ -37,7 +37,8 @@ namespace CarJam.Scripts.CarJam
         {
             _gameModel.CurrentLevel = _level.CreateLevel(GetVehicleSettings());
             
-            _characters.Value.Clear();
+            _characters.Value.Dispose();
+            _characters.Value.Restart();
             _busStops.Value.Clear();
             _parking.Value.Clear();
             

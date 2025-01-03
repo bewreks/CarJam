@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 namespace CarJam.Scripts.Queues.Base
@@ -36,13 +37,14 @@ namespace CarJam.Scripts.Queues.Base
             _queueDirection = DistanceBetweenVehicles * (_startPoint - _finishPoint).normalized;
         }
 
-        public async UniTask Enqueue(T t)
+        public async UniTask Enqueue(T t, CancellationToken token)
         {
             var nextPosition = _currentPosition;
             _currentPosition = nextPosition + _queueDirection;
-            await BeforeEnqueue(t, _startPoint);
+            await BeforeEnqueue(t, _startPoint, token);
+            if (token.IsCancellationRequested) return;
             _objects.Add(t);
-            await AfterEnqueue(t, nextPosition);
+            await AfterEnqueue(t, nextPosition, token);
         }
 
         public T Dequeue()
@@ -58,9 +60,9 @@ namespace CarJam.Scripts.Queues.Base
             _currentPosition = _finishPoint;
         }
 
-        public abstract UniTask UpdateQueue();
-        protected abstract UniTask BeforeEnqueue(T t, Vector3 position);
-        protected abstract UniTask AfterEnqueue(T t, Vector3 position);
+        public abstract UniTask UpdateQueue(CancellationToken token);
+        protected abstract UniTask BeforeEnqueue(T t, Vector3 position, CancellationToken token);
+        protected abstract UniTask AfterEnqueue(T t, Vector3 position, CancellationToken token);
         public abstract void Dispose();
     }
 }
