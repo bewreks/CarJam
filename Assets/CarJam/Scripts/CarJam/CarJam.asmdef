@@ -1,0 +1,24 @@
+{
+    "name": "CarJam",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c3e688c5b4c74d498c025a29bd732b0e",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:b7dfec398a254f7e9268f106c28c8f6a",
+        "GUID:ebce74dd51b84b0e90879130bcad3091",
+        "GUID:8a989fb4ddef4dd6bfb31132da7d233e",
+        "GUID:b75bbbfe44fa43109958b67e1d1db598",
+        "GUID:64812c226d034e7d9b05e07b6f65811f",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:143c059d01d74f33936c55249d2c7451"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,4 @@
+﻿{
+  "name": "CarJam.Editor",
+  "references":[ "GUID:a13afa908bd04602986f242730aaea1c", "GUID:c3e688c5b4c74d498c025a29bd732b0e", "GUID:f08fa4ab2bed4d338a589c667a0ef913" ]
+}

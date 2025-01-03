@@ -1,0 +1,27 @@
+{
+    "name": "Contexts",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:b7dfec398a254f7e9268f106c28c8f6a",
+        "GUID:ebce74dd51b84b0e90879130bcad3091",
+        "GUID:8a989fb4ddef4dd6bfb31132da7d233e",
+        "GUID:dde43d7f8fa14ff58803390cb489b9af",
+        "GUID:a13afa908bd04602986f242730aaea1c",
+        "GUID:b75bbbfe44fa43109958b67e1d1db598",
+        "GUID:d2b061811f4240ff9489413f1753d093",
+        "GUID:143c059d01d74f33936c55249d2c7451",
+        "GUID:c3e688c5b4c74d498c025a29bd732b0e",
+        "GUID:f08fa4ab2bed4d338a589c667a0ef913",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

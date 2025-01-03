@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Linq;
-using CarJam.Scripts.Contexts.Installers;
 using CarJam.Scripts.Data;
 using CarJam.Scripts.Data.Settings;
 using CarJam.Scripts.Parking;
 using CarJam.Scripts.Queues.BusStop;
 using CarJam.Scripts.Queues.Characters;
 using CarJam.Scripts.Signals;
-using CarJam.Scripts.Vehicles;
 using UniRx;
-using UnityEngine;
 using Zenject;
 namespace CarJam.Scripts.CarJam
 {

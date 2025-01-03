@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using CarJam.Scripts.Parking.Waypoints;
+using CarJam.Scripts.Data;
 using CarJam.Scripts.Vehicles.Models;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;

@@ -4,7 +4,6 @@ using CarJam.Scripts.Data;
 using CarJam.Scripts.Vehicles.Dummies;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

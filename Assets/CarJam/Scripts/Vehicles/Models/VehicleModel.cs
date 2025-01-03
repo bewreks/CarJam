@@ -1,5 +1,4 @@
 ﻿using System;
-using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Data;
 using UniRx;
 using UnityEngine;

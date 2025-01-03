@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Characters.Presenters;
 using CarJam.Scripts.Data;
 using CarJam.Scripts.Data.Settings;

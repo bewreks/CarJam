@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Characters.Models;
 using CarJam.Scripts.Characters.Views;
 using CarJam.Scripts.Data;

@@ -1,5 +1,4 @@
 ﻿using System;
-using CarJam.Scripts.Contexts.Installers;
 using CarJam.Scripts.Signals;
 using CarJam.Scripts.Vehicles.Views;
 using UnityEngine;

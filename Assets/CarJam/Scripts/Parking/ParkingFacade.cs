@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Data;
 using CarJam.Scripts.Parking.Presenters;
 using CarJam.Scripts.Parking.Waypoints;
