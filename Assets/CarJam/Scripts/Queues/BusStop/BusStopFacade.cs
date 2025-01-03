@@ -23,12 +23,6 @@ namespace CarJam.Scripts.Queues.BusStop
         {
             _parent = parent;
         }
-
-        [Inject]
-        private void Construct()
-        {
-            SubscribeToSignals();
-        }
         
         private void SubscribeToSignals()
         {
@@ -40,10 +34,10 @@ namespace CarJam.Scripts.Queues.BusStop
         
         private void UnsubscribeFromSignals()
         {
-            _bus.Unsubscribe<UserSelectionSignal>(OnVehicleSelected);
-            _bus.Unsubscribe<StartVehicleMovingToBusStopSignal>(OnStartVehicleMoving);
-            _bus.Unsubscribe<FinishVehicleMovingToBusStopSignal>(OnFinishVehicleMoving);
-            _bus.Unsubscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
+            _bus.TryUnsubscribe<UserSelectionSignal>(OnVehicleSelected);
+            _bus.TryUnsubscribe<StartVehicleMovingToBusStopSignal>(OnStartVehicleMoving);
+            _bus.TryUnsubscribe<FinishVehicleMovingToBusStopSignal>(OnFinishVehicleMoving);
+            _bus.TryUnsubscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
         }
 
         private void InitializeCancellationToken()
@@ -93,9 +87,13 @@ namespace CarJam.Scripts.Queues.BusStop
         protected override void OnInitialize()
         {
             InitializeCancellationToken();
-            
+            InitializePlaces();
+        }
+        
+        private void InitializePlaces()
+        {
             var placesCount = (int)(Vector3.Distance(_startPoint, _finishPoint) / DistanceBetweenObject);
-            
+
             for (var i = 0; i < placesCount; i++)
             {
                 Enqueue(GameColors.None, _cancellationToken.Token).Forget();
@@ -123,12 +121,12 @@ namespace CarJam.Scripts.Queues.BusStop
             _cancellationToken = null;
             
             UnsubscribeFromSignals();
-            _queue.Clear();
         }
 
         public void Restart()
         {
-            OnInitialize();
+            InitializeCancellationToken();
+            SubscribeToSignals();
         }
     }
 }

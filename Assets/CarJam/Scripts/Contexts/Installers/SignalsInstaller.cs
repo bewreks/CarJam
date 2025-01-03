@@ -20,10 +20,16 @@ namespace CarJam.Scripts.Contexts.Installers
             Container.DeclareSignal<LevelClearedSignal>();
             Container.DeclareSignal<NoMoreCharactersToSpawnSignal>();
             
+            Container.DeclareSignal<GameEndedSignal>();
             Container.DeclareSignal<StartGameSignal>();
             Container.DeclareSignal<RestartGameSignal>();
             Container.DeclareSignal<ScoreUpdateSignal>();
             Container.DeclareSignal<CountDownSignal>();
+
+            Container.DeclareSignal<DebugSignal>();
         }
+    }
+    public struct DebugSignal
+    {
     }
 }

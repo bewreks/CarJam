@@ -39,7 +39,7 @@ namespace CarJam.Scripts.Characters.Presenters
         public async UniTask MoveToPosition(Vector3 position, CancellationToken token)
         {
             _movementCts?.Cancel();
-            _movementCts = CancellationTokenSource.CreateLinkedTokenSource(token, _view.destroyCancellationToken);
+            _movementCts = CancellationTokenSource.CreateLinkedTokenSource(token);
             _model.IsMoving.Value = true;
             var result = await _view.MoveToPosition(position, _movementCts.Token);
             if (result)
@@ -57,7 +57,9 @@ namespace CarJam.Scripts.Characters.Presenters
 
         public void Dispose()
         {
+            _movementCts?.Cancel();
             _movementCts?.Dispose();
+            _movementCts = null;
             _view.Dispose();
         }
 

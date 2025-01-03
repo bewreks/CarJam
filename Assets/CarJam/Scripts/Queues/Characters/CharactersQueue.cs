@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using CarJam.Scripts.Characters.Presenters;
 using CarJam.Scripts.Queues.Base;
 using Cysharp.Threading.Tasks;
@@ -7,6 +8,8 @@ namespace CarJam.Scripts.Queues.Characters
 {
     public class CharactersQueue : BaseQueue<CharacterPresenter>
     {
+        private List<CharacterPresenter> _precachedObjects = new List<CharacterPresenter>();
+        
         public CharactersQueue(Vector3 startPoint, Vector3 finishPoint, float distanceBetweenVehicles) : base(startPoint, finishPoint, distanceBetweenVehicles)
         {
         }
@@ -19,6 +22,9 @@ namespace CarJam.Scripts.Queues.Characters
 
         public override void Dispose()
         {
+            _precachedObjects.ForEach(presenter => presenter.DestroySelf());
+            _precachedObjects.Clear();
+            
             _objects.ForEach(presenter => presenter.DestroySelf());
             Clear();
         }
@@ -39,7 +45,9 @@ namespace CarJam.Scripts.Queues.Characters
 
         async protected override UniTask BeforeEnqueue(CharacterPresenter t, Vector3 position, CancellationToken token)
         {
+            _precachedObjects.Add(t);
             await t.MoveToPosition(_startPoint, token);
+            _precachedObjects.Remove(t);
         }
 
         async protected override UniTask AfterEnqueue(CharacterPresenter t, Vector3 position, CancellationToken token)

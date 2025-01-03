@@ -35,7 +35,7 @@ namespace CarJam.Scripts.Characters.Views
             transform.forward = position - transform.position;
             await transform.DOMove(position, Vector3.Distance(transform.position, position) / _model.MovementSpeed)
                            .SetEase(Ease.Linear)
-                           .ToUniTask(cancellationToken: token);
+                           .WithCancellation(token);
             return !token.IsCancellationRequested;
         }
 

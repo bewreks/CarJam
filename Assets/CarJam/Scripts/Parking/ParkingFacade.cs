@@ -28,7 +28,6 @@ namespace CarJam.Scripts.Parking
             _outPoint = outPoint;
             _presenter = _presenterFactory.Create(rbPoint, ltPoint);
             _vehiclesLayerMask = 1 << 6;
-            SubscribeToSignals();
         }
         
         private void SubscribeToSignals()
@@ -39,8 +38,8 @@ namespace CarJam.Scripts.Parking
         
         public void UnsubscribeFromSignals()
         {
-            _bus.Unsubscribe<BusStopFoundSignal>(OnVehicleSelected);
-            _bus.Unsubscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
+            _bus.TryUnsubscribe<BusStopFoundSignal>(OnVehicleSelected);
+            _bus.TryUnsubscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
         }
 
         private void OnCharacterOnAboard(CharacterOnAboardSignal signal)
@@ -126,7 +125,7 @@ namespace CarJam.Scripts.Parking
 
         public void Restart()
         {
-            
+            SubscribeToSignals();
         }
     }
 }

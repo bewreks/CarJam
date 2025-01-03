@@ -7,7 +7,7 @@ using UnityEngine;
 using Zenject;
 namespace CarJam.Scripts.Queues.BusStop.Presenters
 {
-    public class BusStopPlacePresenter
+    public class BusStopPlacePresenter : IDisposable
     {
         [Inject] private BusStopPlaceModel.Factory _modelFactory;
         [Inject] private BusStopPlaceView.Factory _viewFactory;
@@ -55,6 +55,13 @@ namespace CarJam.Scripts.Queues.BusStop.Presenters
         public void Unreserve()
         {
             _model.Reserved = false;
+        }
+        
+        public void Dispose()
+        {
+            _model.Reserved = false;
+            _model.Color = GameColors.None;
+            _model.Vehicle = Guid.Empty;
         }
 
         public class Factory : PlaceholderFactory<BusStopPlacePresenter>

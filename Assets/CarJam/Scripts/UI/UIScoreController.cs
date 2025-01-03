@@ -23,6 +23,11 @@ namespace CarJam.Scripts.UI
             
             _signalBus.Subscribe<ScoreUpdateSignal>(OnScoreUpdated);
             _signalBus.Subscribe<GameStartedSignal>(OnStartGame);
+            _signalBus.Subscribe<GameEndedSignal>(OnGameEnded);
+        }
+        private void OnGameEnded()
+        {
+            _canvas.gameObject.SetActive(false);
         }
 
         private void OnStartGame()
@@ -37,8 +42,9 @@ namespace CarJam.Scripts.UI
         
         public void Dispose()
         {
-            _signalBus.Unsubscribe<GameStartedSignal>(OnStartGame);
-            _signalBus.Unsubscribe<ScoreUpdateSignal>(OnScoreUpdated);
+            _signalBus.TryUnsubscribe<GameEndedSignal>(OnGameEnded);
+            _signalBus.TryUnsubscribe<GameStartedSignal>(OnStartGame);
+            _signalBus.TryUnsubscribe<ScoreUpdateSignal>(OnScoreUpdated);
         }
     }
 }

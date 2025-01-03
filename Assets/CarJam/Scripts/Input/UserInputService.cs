@@ -1,4 +1,5 @@
 ﻿using System;
+using CarJam.Scripts.Contexts.Installers;
 using CarJam.Scripts.Signals;
 using CarJam.Scripts.Vehicles.Views;
 using UnityEngine;
@@ -21,10 +22,10 @@ namespace CarJam.Scripts.Input
             _camera = camera;
             _vehiclesMask = 1 << 6;
             _signalBus.Subscribe<GameStartedSignal>(OnStartGame);
-            _signalBus.Subscribe<LevelClearedSignal>(OnLevelCleared);
+            _signalBus.Subscribe<GameEndedSignal>(OnGameEnd);
         }
 
-        private void OnLevelCleared()
+        private void OnGameEnd()
         {
             _inputActions.Disable();
         }
@@ -37,6 +38,12 @@ namespace CarJam.Scripts.Input
         public void Initialize()
         {
             _inputActions.GamePlay.Select.performed += OnSelect;
+            _inputActions.GamePlay.Debug.performed += OnDebug;
+        }
+        
+        private void OnDebug(InputAction.CallbackContext obj)
+        {
+            _signalBus.Fire<DebugSignal>();
         }
 
         private void OnSelect(InputAction.CallbackContext obj)
@@ -56,8 +63,10 @@ namespace CarJam.Scripts.Input
         public void Dispose()
         {
             _inputActions.Dispose();
-            _signalBus.Unsubscribe<GameStartedSignal>(OnStartGame);
+            _signalBus.TryUnsubscribe<GameEndedSignal>(OnGameEnd);
+            _signalBus.TryUnsubscribe<GameStartedSignal>(OnStartGame);
             _inputActions.GamePlay.Select.performed -= OnSelect;
+            _inputActions.GamePlay.Debug.performed -= OnDebug;
         }
     }
 }

@@ -7,5 +7,7 @@ namespace CarJam.Scripts.CarJam
         public float CharacterDespawnCooldown;
         public Level CurrentLevel;
         public IntReactiveProperty Score;
+        public BoolReactiveProperty IsCharactersQueueWaiting;
+        public BoolReactiveProperty IsBusStopsQueueFull;
     }
 }

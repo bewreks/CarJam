@@ -15,7 +15,6 @@ namespace CarJam.Scripts.UI
         private Button _startButton;
         private Button _restartButton;
         private TMP_Text _message;
-        private GameModel _gameModel;
 
 
         [Inject]
@@ -35,20 +34,14 @@ namespace CarJam.Scripts.UI
             
             _canvas.gameObject.SetActive(true);
             
-            _signalBus.Subscribe<GameStartedSignal>(OnGameStarted);
-            _signalBus.Subscribe<LevelClearedSignal>(OnLevelCleared);
+            _signalBus.Subscribe<GameEndedSignal>(OnGameEndedCleared);
         }
 
-        private void OnGameStarted(GameStartedSignal signal)
+        private void OnGameEndedCleared(GameEndedSignal signal)
         {
-            _gameModel = signal.GameModel;
-        }
-
-        private void OnLevelCleared()
-        {
-            _startButton.gameObject.SetActive(false);
-            _restartButton.gameObject.SetActive(true);
-            _message.text = $"Level cleared! \r\n Score: {_gameModel.Score}";
+            _startButton.gameObject.SetActive(!signal.IsWin);
+            _restartButton.gameObject.SetActive(signal.IsWin);
+            _message.text = $"Level cleared! \r\n Score: {signal.Score}";
             _message.gameObject.SetActive(true);
             
             _canvas.gameObject.SetActive(true);
@@ -70,6 +63,7 @@ namespace CarJam.Scripts.UI
 
         public void Dispose()
         {
+            _signalBus.TryUnsubscribe<GameEndedSignal>(OnGameEndedCleared);
             _restartButton.onClick.RemoveAllListeners();
             _startButton.onClick.RemoveAllListeners();
         }

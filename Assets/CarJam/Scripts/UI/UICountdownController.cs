@@ -47,9 +47,9 @@ namespace CarJam.Scripts.UI
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<StartGameSignal>(OnStarGame);
-            _signalBus.Unsubscribe<RestartGameSignal>(OnStarGame);
-            _signalBus.Unsubscribe<CountDownSignal>(OnCountDown);
+            _signalBus.TryUnsubscribe<StartGameSignal>(OnStarGame);
+            _signalBus.TryUnsubscribe<RestartGameSignal>(OnStarGame);
+            _signalBus.TryUnsubscribe<CountDownSignal>(OnCountDown);
         }
     }
 }

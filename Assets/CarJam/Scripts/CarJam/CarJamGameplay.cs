@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using CarJam.Scripts.Contexts.Installers;
 using CarJam.Scripts.Parking;
 using CarJam.Scripts.Queues.BusStop;
 using CarJam.Scripts.Queues.Characters;
@@ -21,8 +22,11 @@ namespace CarJam.Scripts.CarJam
         [Inject] private SignalBus _signalBus;
         [Inject] private DiContainer _container;
         
-        private CompositeDisposable _disposables = new CompositeDisposable();
         private GameModel _gameModel;
+        
+        private IDisposable _levelFailedHandler;
+        private IDisposable _onScoresChandelHandler;
+        private IDisposable _countDownHandler;
 
         [Inject]
         public void Construct()
@@ -31,17 +35,38 @@ namespace CarJam.Scripts.CarJam
             _signalBus.Subscribe<RestartGameSignal>(OnRestartGame);
             _signalBus.Subscribe<LevelLoadedSignal>(OnLevelLoaded);
             _signalBus.Subscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
+            _signalBus.Subscribe<LevelClearedSignal>(OnLevelCleared);
+            
+            _signalBus.Subscribe<DebugSignal>(OnDebug);
+        }
+        
+        private void OnDebug()
+        {
+            _gameModel.IsBusStopsQueueFull.Value = true;
+            _gameModel.IsCharactersQueueWaiting.Value = true;
+        }
+
+        private void OnLevelCleared()
+        {
+            _characters.Value.Dispose();
+            _busStops.Value.Dispose();
+            _parking.Value.Dispose();
+            
+            _signalBus.Fire(new GameEndedSignal
+            {
+                Score = _gameModel.Score.Value,
+                IsWin = true
+            });
         }
 
         private void OnRestartGame()
         {
             _gameModel.CurrentLevel = _level.CreateLevel(GetVehicleSettings());
+            _gameModel.IsBusStopsQueueFull.Value = false;
+            _gameModel.IsCharactersQueueWaiting.Value = false;
             
-            _characters.Value.Dispose();
             _characters.Value.Restart();
-            _busStops.Value.Dispose();
             _busStops.Value.Restart();
-            _parking.Value.Dispose();
             _parking.Value.Restart();
             
             _parking.Value.LoadLevel(_gameModel.CurrentLevel);
@@ -54,12 +79,41 @@ namespace CarJam.Scripts.CarJam
                 CharacterSpawnCooldown = _settings.CharacterSpawnCooldown,
                 CharacterDespawnCooldown = _settings.CharacterDespawnCooldown,
                 CurrentLevel = _level.CreateLevel(GetVehicleSettings()),
-                Score = new IntReactiveProperty()
+                Score = new IntReactiveProperty(),
+                IsCharactersQueueWaiting = new BoolReactiveProperty(),
+                IsBusStopsQueueFull = new BoolReactiveProperty()
             };
 
-            _gameModel.Score.Subscribe(OnScoreChanged).AddTo(_disposables);
+            _levelFailedHandler?.Dispose();
+            _levelFailedHandler = new[]
+            {
+                _gameModel.IsCharactersQueueWaiting,
+                _gameModel.IsBusStopsQueueFull
+            }.CombineLatestValuesAreAllTrue().DistinctUntilChanged().Subscribe(OnLevelFailed);
+
+            _onScoresChandelHandler = _gameModel.Score.Subscribe(OnScoreChanged);
             
+            _characters.Value.Restart();
+            _busStops.Value.Restart();
+            _parking.Value.Restart();
+
             _parking.Value.LoadLevel(_gameModel.CurrentLevel);
+        }
+
+        private void OnLevelFailed(bool isFailed)
+        {
+            if (isFailed)
+            {
+                _characters.Value.Dispose();
+                _busStops.Value.Dispose();
+                _parking.Value.Dispose();
+                
+                _signalBus.Fire(new GameEndedSignal
+                {
+                    Score = _gameModel.Score.Value,
+                    IsWin = false
+                });
+            }
         }
 
         private void OnScoreChanged(int score)
@@ -93,26 +147,22 @@ namespace CarJam.Scripts.CarJam
             {
                 Countdown = _settings.StartGameCountdown + 1
             });
-            IDisposable disposable = null;
-            disposable = Observable.Interval( TimeSpan.FromSeconds(1))
-                                   .TakeWhile(timer => timer <= _settings.StartGameCountdown)
-                                   .Select(l => _settings.StartGameCountdown - l)
-                                   .Subscribe(counter =>
-                                   {
-                                       _signalBus.Fire(new CountDownSignal
-                                       {
-                                           Countdown = (int)counter
-                                       });
-                                       if (counter <= 0)
-                                       {
-                                           // ReSharper disable once AccessToModifiedClosure
-                                           _disposables.Remove(disposable);
-                                           // ReSharper disable once AccessToModifiedClosure
-                                           disposable?.Dispose();
-                                           disposable = null;
-                                           FireStart();
-                                       }
-                                   }).AddTo(_disposables);
+            _countDownHandler = Observable.Interval(TimeSpan.FromSeconds(1))
+                                          .TakeWhile(timer => timer <= _settings.StartGameCountdown)
+                                          .Select(l => _settings.StartGameCountdown - l)
+                                          .Subscribe(counter =>
+                                          {
+                                              _signalBus.Fire(new CountDownSignal
+                                              {
+                                                  Countdown = (int)counter
+                                              });
+                                              if (counter <= 0)
+                                              {
+                                                  _countDownHandler?.Dispose();
+                                                  _countDownHandler = null;
+                                                  FireStart();
+                                              }
+                                          });
         }
 
         private void FireStart()
@@ -125,11 +175,16 @@ namespace CarJam.Scripts.CarJam
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<StartGameSignal>(OnStartGame);
-            _signalBus.Unsubscribe<RestartGameSignal>(OnRestartGame);
-            _signalBus.Unsubscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
-            _signalBus.Unsubscribe<LevelLoadedSignal>(OnLevelLoaded);
-            _disposables.Dispose();
+            _signalBus.TryUnsubscribe<DebugSignal>(OnDebug);
+            _signalBus.TryUnsubscribe<LevelClearedSignal>(OnLevelCleared);
+            _signalBus.TryUnsubscribe<StartGameSignal>(OnStartGame);
+            _signalBus.TryUnsubscribe<RestartGameSignal>(OnRestartGame);
+            _signalBus.TryUnsubscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
+            _signalBus.TryUnsubscribe<LevelLoadedSignal>(OnLevelLoaded);
+            
+            _levelFailedHandler?.Dispose();
+            _onScoresChandelHandler?.Dispose();
+            _countDownHandler?.Dispose();
         }
 
         private void OnLevelLoaded()

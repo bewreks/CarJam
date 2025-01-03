@@ -46,6 +46,15 @@ namespace CarJam.Scripts.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Debug"",
+                    ""type"": ""Button"",
+                    ""id"": ""17dc1eea-c0cd-4433-b0e0-1b7d4c3f4e67"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -90,6 +99,17 @@ namespace CarJam.Scripts.Input
                     ""processors"": """",
                     ""groups"": "";Touch"",
                     ""action"": ""SelectPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dcafb3b3-58ea-4a46-9d11-bc2a67242da3"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Debug"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -679,6 +699,7 @@ namespace CarJam.Scripts.Input
             m_GamePlay = asset.FindActionMap("GamePlay", throwIfNotFound: true);
             m_GamePlay_Select = m_GamePlay.FindAction("Select", throwIfNotFound: true);
             m_GamePlay_SelectPosition = m_GamePlay.FindAction("SelectPosition", throwIfNotFound: true);
+            m_GamePlay_Debug = m_GamePlay.FindAction("Debug", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -760,12 +781,14 @@ namespace CarJam.Scripts.Input
         private List<IGamePlayActions> m_GamePlayActionsCallbackInterfaces = new List<IGamePlayActions>();
         private readonly InputAction m_GamePlay_Select;
         private readonly InputAction m_GamePlay_SelectPosition;
+        private readonly InputAction m_GamePlay_Debug;
         public struct GamePlayActions
         {
             private @InputActions m_Wrapper;
             public GamePlayActions(@InputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Select => m_Wrapper.m_GamePlay_Select;
             public InputAction @SelectPosition => m_Wrapper.m_GamePlay_SelectPosition;
+            public InputAction @Debug => m_Wrapper.m_GamePlay_Debug;
             public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -781,6 +804,9 @@ namespace CarJam.Scripts.Input
                 @SelectPosition.started += instance.OnSelectPosition;
                 @SelectPosition.performed += instance.OnSelectPosition;
                 @SelectPosition.canceled += instance.OnSelectPosition;
+                @Debug.started += instance.OnDebug;
+                @Debug.performed += instance.OnDebug;
+                @Debug.canceled += instance.OnDebug;
             }
 
             private void UnregisterCallbacks(IGamePlayActions instance)
@@ -791,6 +817,9 @@ namespace CarJam.Scripts.Input
                 @SelectPosition.started -= instance.OnSelectPosition;
                 @SelectPosition.performed -= instance.OnSelectPosition;
                 @SelectPosition.canceled -= instance.OnSelectPosition;
+                @Debug.started -= instance.OnDebug;
+                @Debug.performed -= instance.OnDebug;
+                @Debug.canceled -= instance.OnDebug;
             }
 
             public void RemoveCallbacks(IGamePlayActions instance)
@@ -975,6 +1004,7 @@ namespace CarJam.Scripts.Input
         {
             void OnSelect(InputAction.CallbackContext context);
             void OnSelectPosition(InputAction.CallbackContext context);
+            void OnDebug(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

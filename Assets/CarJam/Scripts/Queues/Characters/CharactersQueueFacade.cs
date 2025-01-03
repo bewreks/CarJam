@@ -38,9 +38,6 @@ namespace CarJam.Scripts.Queues.Characters
         protected override void OnInitialize()
         {
             _vehiclesOnBusStop = new Dictionary<GameColors, List<Guid>>();
-            InitializeCancellationToken();
-            InitializeVehicleDictionaries();
-            SubscribeToSignals();
         }
         
         private void SubscribeToSignals()
@@ -52,9 +49,9 @@ namespace CarJam.Scripts.Queues.Characters
         
         private void UnsubscribeFromSignals()
         {
-            _signalBus.Unsubscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
-            _signalBus.Unsubscribe<FinishVehicleMovingToBusStopSignal>(OnVehicleOnBusStop);
-            _signalBus.Unsubscribe<GameStartedSignal>(OnStartGame);
+            _signalBus.TryUnsubscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
+            _signalBus.TryUnsubscribe<FinishVehicleMovingToBusStopSignal>(OnVehicleOnBusStop);
+            _signalBus.TryUnsubscribe<GameStartedSignal>(OnStartGame);
         }
 
         private void InitializeCancellationToken()
@@ -163,6 +160,9 @@ namespace CarJam.Scripts.Queues.Characters
             _spawnHandler = null;
             _despawnHandler?.Dispose();
             _despawnHandler = null;
+            _cancellationToken?.Cancel();
+            _cancellationToken?.Dispose();
+            _cancellationToken = null;
             UnsubscribeFromSignals();
             _counter?.Clear();
         }

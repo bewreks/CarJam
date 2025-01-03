@@ -39,7 +39,10 @@ namespace CarJam.Scripts.Queues.BusStop
 
         public override void Dispose()
         {
-            
+            foreach (var presenter in _objects)
+            {
+                presenter.Dispose();
+            }
         }
 
         public BusStopPlacePresenter GetEmptyPlace()
