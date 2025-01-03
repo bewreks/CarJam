@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-namespace CarJam.Scripts.Utils
+namespace CarJam.Scripts.Parking.Waypoints
 {
     public struct Waypoint
     {

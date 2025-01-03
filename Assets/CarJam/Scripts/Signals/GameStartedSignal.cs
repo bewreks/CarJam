@@ -1,4 +1,4 @@
-﻿using CarJam.Scripts.CarJam;
+﻿using CarJam.Scripts.Data;
 namespace CarJam.Scripts.Signals
 {
     public struct GameStartedSignal

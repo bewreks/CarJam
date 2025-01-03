@@ -1,5 +1,5 @@
 ﻿using UniRx;
-namespace CarJam.Scripts.CarJam
+namespace CarJam.Scripts.Data
 {
     public class GameModel
     {

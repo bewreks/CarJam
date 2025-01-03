@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using CarJam.Scripts.CarJam;
+using CarJam.Scripts.Data;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;

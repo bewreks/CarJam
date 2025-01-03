@@ -1,9 +1,6 @@
-﻿using System;
-using AYellowpaper.SerializedCollections;
-using CarJam.Scripts.CarJam;
-using CarJam.Scripts.Contexts.Installers;
+﻿using AYellowpaper.SerializedCollections;
 using UnityEngine;
-namespace CarJam.Scripts.Characters
+namespace CarJam.Scripts.Data.Settings
 {
     [CreateAssetMenu(fileName = "CharacterSettings", menuName = "CarJam/Settings/Character", order = 0)]
     public class CharacterSettings : ScriptableObject

@@ -1,7 +1,6 @@
 ﻿using System;
-using CarJam.Scripts.CarJam;
 using UnityEngine;
-namespace CarJam.Scripts.Vehicles.Data
+namespace CarJam.Scripts.Data
 {
     [Serializable]
     public class VehiclesData

@@ -1,6 +1,5 @@
-﻿using System;
-using UnityEngine;
-namespace CarJam.Scripts.Queues.Characters
+﻿using UnityEngine;
+namespace CarJam.Scripts.Data.Settings
 {
     [CreateAssetMenu(fileName = "CharacterQueueSettings", menuName = "CarJam/Settings/CharacterQueue", order = 0)]
     public class CharactersQueueSettings : ScriptableObject

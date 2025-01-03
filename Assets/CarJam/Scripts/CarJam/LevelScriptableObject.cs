@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using CarJam.Scripts.Data;
+using CarJam.Scripts.Data.Settings;
 using CarJam.Scripts.Vehicles;
-using CarJam.Scripts.Vehicles.Data;
 using UnityEngine;
 using Zenject;
 namespace CarJam.Scripts.CarJam

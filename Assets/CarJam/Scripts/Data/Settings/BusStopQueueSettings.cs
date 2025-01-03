@@ -1,6 +1,5 @@
-﻿using System;
-using UnityEngine;
-namespace CarJam.Scripts.Queues.BusStop
+﻿using UnityEngine;
+namespace CarJam.Scripts.Data.Settings
 {
     [CreateAssetMenu(fileName = "BusStopQueueSettings", menuName = "CarJam/Settings/BusStopQueue")]
     public class BusStopQueueSettings : ScriptableObject

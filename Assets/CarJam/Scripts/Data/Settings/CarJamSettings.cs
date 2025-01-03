@@ -1,6 +1,5 @@
-﻿using System;
-using UnityEngine;
-namespace CarJam.Scripts.CarJam
+﻿using UnityEngine;
+namespace CarJam.Scripts.Data.Settings
 {
     [CreateAssetMenu(fileName = "CarJamSettings", menuName = "CarJam/Settings/CarJam", order = 0)]
     public class CarJamSettings : ScriptableObject

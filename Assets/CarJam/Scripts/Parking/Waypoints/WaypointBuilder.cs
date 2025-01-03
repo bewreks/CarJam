@@ -3,7 +3,7 @@ using CarJam.Scripts.Parking.Models;
 using CarJam.Scripts.Parking.Presenters;
 using CarJam.Scripts.Vehicles.Presenters;
 using UnityEngine;
-namespace CarJam.Scripts.Utils
+namespace CarJam.Scripts.Parking.Waypoints
 {
     public static class WaypointBuilder
     {

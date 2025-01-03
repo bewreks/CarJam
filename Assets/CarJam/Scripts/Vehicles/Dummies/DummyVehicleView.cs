@@ -1,5 +1,6 @@
 ﻿using CarJam.Scripts.CarJam;
-using CarJam.Scripts.Vehicles.Data;
+using CarJam.Scripts.Data;
+using CarJam.Scripts.Data.Settings;
 using UnityEngine;
 namespace CarJam.Scripts.Vehicles.Dummies
 {

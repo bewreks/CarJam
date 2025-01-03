@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using CarJam.Scripts.Vehicles.Data;
+using CarJam.Scripts.Data;
 using CarJam.Scripts.Vehicles.Dummies;
 using UnityEditor;
 using UnityEditor.SceneManagement;

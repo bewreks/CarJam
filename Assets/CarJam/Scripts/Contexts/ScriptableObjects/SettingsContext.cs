@@ -1,10 +1,9 @@
 ﻿using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Characters;
-using CarJam.Scripts.Queues;
+using CarJam.Scripts.Data;
+using CarJam.Scripts.Data.Settings;
 using CarJam.Scripts.Queues.BusStop;
 using CarJam.Scripts.Queues.Characters;
-using CarJam.Scripts.Vehicles;
-using CarJam.Scripts.Vehicles.Data;
 using UnityEngine;
 using Zenject;
 namespace CarJam.Scripts.Contexts.ScriptableObjects

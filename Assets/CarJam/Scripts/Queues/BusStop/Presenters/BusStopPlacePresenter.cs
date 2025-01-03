@@ -1,5 +1,6 @@
 ﻿using System;
 using CarJam.Scripts.CarJam;
+using CarJam.Scripts.Data;
 using CarJam.Scripts.Queues.BusStop.Models;
 using CarJam.Scripts.Queues.BusStop.Views;
 using CarJam.Scripts.Vehicles.Presenters;

@@ -1,5 +1,6 @@
 ﻿using System;
 using CarJam.Scripts.CarJam;
+using CarJam.Scripts.Data;
 using Zenject;
 namespace CarJam.Scripts.Queues.BusStop.Models
 {

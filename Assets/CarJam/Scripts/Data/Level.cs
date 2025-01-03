@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CarJam.Scripts.Vehicles;
-using CarJam.Scripts.Vehicles.Data;
+using CarJam.Scripts.Data.Settings;
 using UnityEngine;
-namespace CarJam.Scripts.CarJam
+namespace CarJam.Scripts.Data
 {
     public class Level
     {

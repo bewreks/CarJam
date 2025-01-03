@@ -3,6 +3,8 @@ using System.Threading;
 using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Characters.Models;
 using CarJam.Scripts.Characters.Views;
+using CarJam.Scripts.Data;
+using CarJam.Scripts.Data.Settings;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;

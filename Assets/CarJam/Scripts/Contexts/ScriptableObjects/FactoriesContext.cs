@@ -2,12 +2,12 @@
 using CarJam.Scripts.Characters.Models;
 using CarJam.Scripts.Characters.Presenters;
 using CarJam.Scripts.Characters.Views;
+using CarJam.Scripts.Data;
 using CarJam.Scripts.Parking.Models;
 using CarJam.Scripts.Parking.Presenters;
 using CarJam.Scripts.Queues.BusStop.Models;
 using CarJam.Scripts.Queues.BusStop.Presenters;
 using CarJam.Scripts.Queues.BusStop.Views;
-using CarJam.Scripts.Vehicles.Data;
 using CarJam.Scripts.Vehicles.Models;
 using CarJam.Scripts.Vehicles.Presenters;
 using CarJam.Scripts.Vehicles.Views;
