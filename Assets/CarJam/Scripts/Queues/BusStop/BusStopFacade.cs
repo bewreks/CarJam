@@ -27,10 +27,30 @@ namespace CarJam.Scripts.Queues.BusStop
         [Inject]
         private void Construct()
         {
+            SubscribeToSignals();
+        }
+        
+        private void SubscribeToSignals()
+        {
             _bus.Subscribe<UserSelectionSignal>(OnVehicleSelected);
             _bus.Subscribe<StartVehicleMovingToBusStopSignal>(OnStartVehicleMoving);
             _bus.Subscribe<FinishVehicleMovingToBusStopSignal>(OnFinishVehicleMoving);
             _bus.Subscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
+        }
+        
+        private void UnsubscribeFromSignals()
+        {
+            _bus.Unsubscribe<UserSelectionSignal>(OnVehicleSelected);
+            _bus.Unsubscribe<StartVehicleMovingToBusStopSignal>(OnStartVehicleMoving);
+            _bus.Unsubscribe<FinishVehicleMovingToBusStopSignal>(OnFinishVehicleMoving);
+            _bus.Unsubscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
+        }
+
+        private void InitializeCancellationToken()
+        {
+            _cancellationToken?.Cancel();
+            _cancellationToken?.Dispose();
+            _cancellationToken = new CancellationTokenSource();
         }
 
         private void OnVehicleMoveOutBusStop(VehicleMoveOutBusStopSignal signal)
@@ -72,7 +92,7 @@ namespace CarJam.Scripts.Queues.BusStop
 
         protected override void OnInitialize()
         {
-            _cancellationToken = new CancellationTokenSource();
+            InitializeCancellationToken();
             
             var placesCount = (int)(Vector3.Distance(_startPoint, _finishPoint) / DistanceBetweenObject);
             
@@ -98,15 +118,16 @@ namespace CarJam.Scripts.Queues.BusStop
 
         protected override void OnDispose()
         {
-            _bus.Unsubscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
-            _bus.Unsubscribe<StartVehicleMovingToBusStopSignal>(OnStartVehicleMoving);
-            _bus.Unsubscribe<FinishVehicleMovingToBusStopSignal>(OnFinishVehicleMoving);
-            _bus.Unsubscribe<UserSelectionSignal>(OnVehicleSelected);
+            _cancellationToken?.Cancel();
+            _cancellationToken?.Dispose();
+            _cancellationToken = null;
+            
+            UnsubscribeFromSignals();
+            _queue.Clear();
         }
 
-        public void Clear()
+        public void Restart()
         {
-            _queue.Clear();
             OnInitialize();
         }
     }

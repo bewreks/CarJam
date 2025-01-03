@@ -27,9 +27,20 @@ namespace CarJam.Scripts.Parking
         {
             _outPoint = outPoint;
             _presenter = _presenterFactory.Create(rbPoint, ltPoint);
+            _vehiclesLayerMask = 1 << 6;
+            SubscribeToSignals();
+        }
+        
+        private void SubscribeToSignals()
+        {
             _bus.Subscribe<BusStopFoundSignal>(OnVehicleSelected);
             _bus.Subscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
-            _vehiclesLayerMask = 1 << 6;
+        }
+        
+        public void UnsubscribeFromSignals()
+        {
+            _bus.Unsubscribe<BusStopFoundSignal>(OnVehicleSelected);
+            _bus.Unsubscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
         }
 
         private void OnCharacterOnAboard(CharacterOnAboardSignal signal)
@@ -56,7 +67,6 @@ namespace CarJam.Scripts.Parking
                 {
                     vehicle.DestroySelf();
                 }
-                 
             }
         }
 
@@ -78,7 +88,6 @@ namespace CarJam.Scripts.Parking
 
         private async UniTask MoveToBusStop(BusStopFoundSignal signal, VehiclePresenter vehicle)
         {
-
             _bus.Fire(new StartVehicleMovingToBusStopSignal
             {
                 BusStopId = signal.BusStopId,
@@ -107,18 +116,17 @@ namespace CarJam.Scripts.Parking
 
         public void Dispose()
         {
-            _bus.Unsubscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
-            _bus.Unsubscribe<BusStopFoundSignal>(OnVehicleSelected);
-            _vehicles.Clear();
-        }
-
-        public void Clear()
-        {
+            UnsubscribeFromSignals();
             foreach (var (key, value) in _vehicles)
             {
                 value.DestroySelf();
             }
             _vehicles.Clear();
+        }
+
+        public void Restart()
+        {
+            
         }
     }
 }

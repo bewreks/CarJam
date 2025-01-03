@@ -39,8 +39,10 @@ namespace CarJam.Scripts.CarJam
             
             _characters.Value.Dispose();
             _characters.Value.Restart();
-            _busStops.Value.Clear();
-            _parking.Value.Clear();
+            _busStops.Value.Dispose();
+            _busStops.Value.Restart();
+            _parking.Value.Dispose();
+            _parking.Value.Restart();
             
             _parking.Value.LoadLevel(_gameModel.CurrentLevel);
         }

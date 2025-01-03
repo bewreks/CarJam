@@ -51,7 +51,8 @@ namespace CarJam.Scripts.Characters.Presenters
         public void DestroySelf()
         {
             Dispose();
-            Object.Destroy(_view.gameObject);
+            if (_view)
+                Object.Destroy(_view.gameObject);
         }
 
         public void Dispose()
