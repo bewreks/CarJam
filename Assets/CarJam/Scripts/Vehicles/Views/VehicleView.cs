@@ -27,7 +27,6 @@ namespace CarJam.Scripts.Vehicles.Views
             _canvas.gameObject.SetActive(false);
         }
 
-
         [Inject]
         private void Construct(VehicleModel model, Camera gameCamera)
         {
@@ -39,13 +38,14 @@ namespace CarJam.Scripts.Vehicles.Views
 
         public async UniTask<bool> MoveByWaypoints(Waypoint[] waypoints, CancellationToken token)
         {
-            await GetMovingSequence(waypoints).ToUniTask(cancellationToken: token);
+            await GetMovingSequence(waypoints).WithCancellation(token);
             return !token.IsCancellationRequested;
         }
 
         private Sequence GetMovingSequence(Waypoint[] waypoints)
         {
             var moving = DOTween.Sequence();
+            moving.SetLink(gameObject);
             var cachedPosition = transform.position;
             var cachedDirection = transform.forward;
             foreach (var waypoint in waypoints)

@@ -66,10 +66,10 @@ namespace CarJam.Scripts.Vehicles.Presenters
             _view.Dispose();
         }
 
-        public async UniTask MoveByWaypoints(Waypoint[] waypoints)
+        public async UniTask MoveByWaypoints(Waypoint[] waypoints, CancellationToken token)
         {
             _movementCts?.Cancel();
-            _movementCts = new CancellationTokenSource();
+            _movementCts = CancellationTokenSource.CreateLinkedTokenSource(token);
             _model.IsMoving.Value = true;
             var result = await _view.MoveByWaypoints(waypoints, _movementCts.Token);
             if (result)

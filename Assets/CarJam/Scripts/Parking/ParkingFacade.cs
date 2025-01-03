@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using CarJam.Scripts.CarJam;
 using CarJam.Scripts.Parking.Presenters;
 using CarJam.Scripts.Signals;
@@ -21,6 +22,8 @@ namespace CarJam.Scripts.Parking
         private Vector3 _outPoint;
         private int _vehiclesLayerMask;
         private Dictionary<Guid, VehiclePresenter> _vehicles = new Dictionary<Guid, VehiclePresenter>();
+        
+        private CancellationTokenSource _cancellationTokenSource;
 
         [Inject]
         private void Construct(Vector3 rbPoint, Vector3 ltPoint, Vector3 outPoint)
@@ -28,6 +31,13 @@ namespace CarJam.Scripts.Parking
             _outPoint = outPoint;
             _presenter = _presenterFactory.Create(rbPoint, ltPoint);
             _vehiclesLayerMask = 1 << 6;
+        }
+        
+        private void InitializeCancellationToken()
+        {
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
+            _cancellationTokenSource = new CancellationTokenSource();
         }
         
         private void SubscribeToSignals()
@@ -60,7 +70,7 @@ namespace CarJam.Scripts.Parking
                     var waypoints = new Waypoint[2];
                     waypoints[0] = new Waypoint(ray.GetPoint(distance), true);
                     waypoints[1] = new Waypoint(_outPoint);
-                    vehicle.MoveByWaypoints(waypoints).Forget(); 
+                    vehicle.MoveByWaypoints(waypoints, _cancellationTokenSource.Token).Forget(); 
                 }
                 else
                 {
@@ -82,10 +92,10 @@ namespace CarJam.Scripts.Parking
                 return;
             }
 
-            MoveToBusStop(signal, vehicle).Forget();
+            MoveToBusStop(signal, vehicle, _cancellationTokenSource.Token).Forget();
         }
 
-        private async UniTask MoveToBusStop(BusStopFoundSignal signal, VehiclePresenter vehicle)
+        private async UniTask MoveToBusStop(BusStopFoundSignal signal, VehiclePresenter vehicle, CancellationToken token)
         {
             _bus.Fire(new StartVehicleMovingToBusStopSignal
             {
@@ -93,7 +103,10 @@ namespace CarJam.Scripts.Parking
             });
             vehicle.SetBusStopId(signal.BusStopId);
             var waypoints = WaypointBuilder.BuildWaypoints(vehicle, _presenter, signal.Position, signal.EnterPoint);
-            await vehicle.MoveByWaypoints(waypoints);
+            await vehicle.MoveByWaypoints(waypoints, token);
+            
+            if (token.IsCancellationRequested) return;
+            
             _bus.Fire(new FinishVehicleMovingToBusStopSignal
             {
                 VehicleId = signal.VehicleId, 
@@ -115,6 +128,10 @@ namespace CarJam.Scripts.Parking
 
         public void Dispose()
         {
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
+            _cancellationTokenSource = null;
+            
             UnsubscribeFromSignals();
             foreach (var (key, value) in _vehicles)
             {
@@ -125,6 +142,7 @@ namespace CarJam.Scripts.Parking
 
         public void Restart()
         {
+            InitializeCancellationToken();
             SubscribeToSignals();
         }
     }

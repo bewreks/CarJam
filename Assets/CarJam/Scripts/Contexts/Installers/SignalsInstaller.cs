@@ -25,11 +25,6 @@ namespace CarJam.Scripts.Contexts.Installers
             Container.DeclareSignal<RestartGameSignal>();
             Container.DeclareSignal<ScoreUpdateSignal>();
             Container.DeclareSignal<CountDownSignal>();
-
-            Container.DeclareSignal<DebugSignal>();
         }
-    }
-    public struct DebugSignal
-    {
     }
 }

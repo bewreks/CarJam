@@ -21,6 +21,8 @@ namespace CarJam.Scripts.Queues.BusStop
             protected set;
         }
         
+        public int Count => _objects.Count(presenter => presenter.IsEmpty);
+
         public override UniTask UpdateQueue(CancellationToken token)
         {
             return UniTask.CompletedTask; 

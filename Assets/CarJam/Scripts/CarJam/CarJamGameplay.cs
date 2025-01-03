@@ -36,14 +36,6 @@ namespace CarJam.Scripts.CarJam
             _signalBus.Subscribe<LevelLoadedSignal>(OnLevelLoaded);
             _signalBus.Subscribe<CharacterOnAboardSignal>(OnCharacterOnAboard);
             _signalBus.Subscribe<LevelClearedSignal>(OnLevelCleared);
-            
-            _signalBus.Subscribe<DebugSignal>(OnDebug);
-        }
-        
-        private void OnDebug()
-        {
-            _gameModel.IsBusStopsQueueFull.Value = true;
-            _gameModel.IsCharactersQueueWaiting.Value = true;
         }
 
         private void OnLevelCleared()
@@ -175,7 +167,6 @@ namespace CarJam.Scripts.CarJam
 
         public void Dispose()
         {
-            _signalBus.TryUnsubscribe<DebugSignal>(OnDebug);
             _signalBus.TryUnsubscribe<LevelClearedSignal>(OnLevelCleared);
             _signalBus.TryUnsubscribe<StartGameSignal>(OnStartGame);
             _signalBus.TryUnsubscribe<RestartGameSignal>(OnRestartGame);

@@ -41,7 +41,8 @@ namespace CarJam.Scripts.UI
         {
             _startButton.gameObject.SetActive(!signal.IsWin);
             _restartButton.gameObject.SetActive(signal.IsWin);
-            _message.text = $"Level cleared! \r\n Score: {signal.Score}";
+            var result = signal.IsWin ? "won" : "Lost";
+            _message.text = $"Game {result}! \r\n Score: {signal.Score}";
             _message.gameObject.SetActive(true);
             
             _canvas.gameObject.SetActive(true);

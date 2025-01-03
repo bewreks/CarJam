@@ -38,12 +38,6 @@ namespace CarJam.Scripts.Input
         public void Initialize()
         {
             _inputActions.GamePlay.Select.performed += OnSelect;
-            _inputActions.GamePlay.Debug.performed += OnDebug;
-        }
-        
-        private void OnDebug(InputAction.CallbackContext obj)
-        {
-            _signalBus.Fire<DebugSignal>();
         }
 
         private void OnSelect(InputAction.CallbackContext obj)
@@ -66,7 +60,6 @@ namespace CarJam.Scripts.Input
             _signalBus.TryUnsubscribe<GameEndedSignal>(OnGameEnd);
             _signalBus.TryUnsubscribe<GameStartedSignal>(OnStartGame);
             _inputActions.GamePlay.Select.performed -= OnSelect;
-            _inputActions.GamePlay.Debug.performed -= OnDebug;
         }
     }
 }

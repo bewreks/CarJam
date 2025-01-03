@@ -84,6 +84,8 @@ namespace CarJam.Scripts.Queues.Characters
         {
             _vehiclesOnBusStop[signal.Color].Add(signal.VehicleId);
 
+            _gameModel.IsCharactersQueueWaiting.Value = false;
+
             SubscribeToDespawn();
         }
 
@@ -131,7 +133,12 @@ namespace CarJam.Scripts.Queues.Characters
 
         private void OnCharacterDespawn(long _)
         {
-            if (_vehiclesOnBusStop[_queue.First.Color].Count == 0) return;
+            if (_vehiclesOnBusStop[_queue.First.Color].Count == 0)
+            {
+                _gameModel.IsCharactersQueueWaiting.Value = true;
+                UnsubscribeToDespawn();
+                return;
+            }
             
             Dequeue(_cancellationToken.Token);
         }

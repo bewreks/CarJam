@@ -18,7 +18,8 @@ namespace CarJam.Scripts.Queues.BusStop
         private readonly Transform _parent;
         
         private CancellationTokenSource _cancellationToken;
-        
+        private GameModel _gameModel;
+
         public BusStopFacade(Vector3 startPoint, Vector3 finishPoint, Transform parent) : base(startPoint, finishPoint, startPoint)
         {
             _parent = parent;
@@ -26,6 +27,7 @@ namespace CarJam.Scripts.Queues.BusStop
         
         private void SubscribeToSignals()
         {
+            _bus.Subscribe<GameStartedSignal>(OnGameStarted);
             _bus.Subscribe<UserSelectionSignal>(OnVehicleSelected);
             _bus.Subscribe<StartVehicleMovingToBusStopSignal>(OnStartVehicleMoving);
             _bus.Subscribe<FinishVehicleMovingToBusStopSignal>(OnFinishVehicleMoving);
@@ -34,10 +36,16 @@ namespace CarJam.Scripts.Queues.BusStop
         
         private void UnsubscribeFromSignals()
         {
+            _bus.TryUnsubscribe<GameStartedSignal>(OnGameStarted);
             _bus.TryUnsubscribe<UserSelectionSignal>(OnVehicleSelected);
             _bus.TryUnsubscribe<StartVehicleMovingToBusStopSignal>(OnStartVehicleMoving);
             _bus.TryUnsubscribe<FinishVehicleMovingToBusStopSignal>(OnFinishVehicleMoving);
             _bus.TryUnsubscribe<VehicleMoveOutBusStopSignal>(OnVehicleMoveOutBusStop);
+        }
+        
+        private void OnGameStarted(GameStartedSignal signal)
+        {
+            _gameModel = signal.GameModel;
         }
 
         private void InitializeCancellationToken()
@@ -51,6 +59,7 @@ namespace CarJam.Scripts.Queues.BusStop
         {
             var place = _queue.GetPlace(signal.BusStopId);
             place.SetVehicle(Guid.Empty, GameColors.None);
+            _gameModel.IsBusStopsQueueFull.Value = false;
         }
 
         private void OnFinishVehicleMoving(FinishVehicleMovingToBusStopSignal signal)
@@ -58,6 +67,10 @@ namespace CarJam.Scripts.Queues.BusStop
             var place = _queue.GetPlace(signal.BusStopId);
             place.SetVehicle(signal.VehicleId, signal.Color);
             place.Unreserve();
+            if (_queue.Count == 0)
+            {
+                _gameModel.IsBusStopsQueueFull.Value = true;
+            }
         }
 
         private void OnStartVehicleMoving(StartVehicleMovingToBusStopSignal signal)
